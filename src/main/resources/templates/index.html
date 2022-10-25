@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <title>홈</title>
 </head>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#modalBtn").click(function(){
+		$('div.modal').modal({remote : 'groupManage.html'});
+	})
+})
+</script>
 <body>
 	<header th:include="/headerNav"></header>
 	<main class="d-flex w-100 h-100">
@@ -29,7 +38,14 @@
 					<li>jsp가 html문법과 Java문법이 혼재되어서 유지보수가 어려워 등장하게 됨</li>
 					<li>WEB-INF/templates에 작성함녀 보안에 유리하다</li>
 				</ul>
+				<button class="btn btn-default" id="modalBtn">모달테스트</button>
+  				<div class="modal-fade">
+    	     		<div class="modal-dialog">
+    					<div class="modal-content"></div>
+    				</div>
+   				</div>
 		</section>
 	</main>
 </body>
+
 </html>
