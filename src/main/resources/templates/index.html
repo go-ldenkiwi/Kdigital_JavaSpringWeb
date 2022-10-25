@@ -4,11 +4,22 @@
 <meta charset="UTF-8">
 <title>홈</title>
 </head>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#modalBtn").click(function(){
+		$('div.modal').modal({remote : 'groupManage.html'});
+	})
+})
+</script>
 <body>
 	<header th:include="/headerNav"></header>
 	<main class="d-flex w-100 h-100">
+
 		<div style="width:15%;" th:include="/asideNav"></div>
-		
+
 	</main>
 </body>
+
 </html>
