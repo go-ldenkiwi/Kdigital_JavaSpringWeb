@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>SignUp Page</title>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script defer="defer" src="/js/userSignUpForm.js"></script>
+</head>
+<body>
+<main class="container mx-auto mt-5" style="max-width: 600px;">
+
+<form class="form-floating mb-3 needs-validation" novalidate name="userSignUpForm"  action="/user/signup.do" method="post" >
+
+		<div class="form-floating mb-3">
+		  <input type="text" class="form-control "  name="userId" placeholder="Id"   value=""  
+		  required minlength="6"  maxlength="10" > 
+		  <label for="floatingInput">Id</label>
+		   <div class="invalid-feedback"  id="userIdInvalid">
+		   아이디를 입력해주세요.
+		  	</div>
+		</div>
+
+		
+		<div class="form-floating mb-3">
+		  <input type="password" class="form-control" name="pw" placeholder="Password"  value="" 
+		  required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$">
+		  <label for="floatingInput">Password</label>
+		   <div class="invalid-feedback"  id="passwordInvalid">
+		   비밀번호를 입력해주세요.
+		  	</div>
+		</div>
+		
+		<div class="form-floating mb-3">
+		  <input type="password" class="form-control" name="pwck" placeholder="PasswordCk"  value=""
+		  required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$">
+		  <label for="floatingInput">PasswordCheck</label>
+		   <div class="invalid-feedback" id="passwordckInvalid">
+		    비밀번호가 맞지않습니다.
+		  	</div>
+		</div>
+		
+		<div class="form-floating mb-3">
+		  <input type="text" class="form-control" name="username" placeholder="Name"   value=""
+		  required pattern="^[가-힣]{2,6}$">
+		  <label for="floatingInput">Name</label>
+		   <div class="invalid-feedback" id="usernameInvalid" >
+		   이름을 입력해주세요.
+		  	</div>
+		</div>
+		
+		<div class="form-floating mb-3">
+		  <input type="text" class="form-control"  name="nickname" placeholder="Nickname"   value=""
+		  required minlength="4"  maxlength="10"  pattern="^[a-zA-Z0-9]{4,10}$">
+		  <label for="floatingInput">Nickname</label>
+		   <div class="invalid-feedback" id="nicknameInvalid">
+		    별명을 입력해주세요.
+		  	</div>
+		</div>
+		
+		<div class="form-floating mb-3">
+		  <input type="text" class="form-control" name="email" placeholder="Email"  value="" 
+		  required pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{3,3}$">
+		  <label for="floatingInput">Email</label>
+		   <div class="invalid-feedback" id="emailInvalid">
+		    이메일을 입력해주세요.
+		  	</div>
+		</div>
+
+		<p>
+		<button type="reset" class="btn btn-outline-secondary">초기화</button>
+		<button type="submit" id="submitbtn" class="btn btn-outline-primary">등록</button>
+		</p>
+	</form>
+	</main>
+</body>
+</html>
