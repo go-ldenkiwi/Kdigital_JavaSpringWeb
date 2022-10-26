@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>홈</title>
 </head>
 <body>
-<a  class="btn"  href="/user/signup.do">회원가입 페이지로 이동</a>
-<a  class="btn"  href="/user/login.do">로그인 페이지로 이동</a>
-<a  class="btn"  href="/login">test</a>
-<a  class="btn"  href="/">Home</a>
-
+  <header th:include="/headerNav"></header>
+	
+  <main class="d-flex w-100 h-100">
+		<div style="width:15%;" th:include="/asideNav"></div>
+    <div>
+      <a  class="btn"  href="/user/signup.do">회원가입 페이지로 이동</a>
+      <a  class="btn"  href="/user/login.do">로그인 페이지로 이동</a>
+      <a  class="btn"  href="/login">test</a>
+      <a  class="btn"  href="/">Home</a>
+   </div>
+	</main>
+  
 </body>
+
 </html>
