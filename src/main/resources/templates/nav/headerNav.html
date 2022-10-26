@@ -12,7 +12,7 @@
     
     <div class="flex-grow-1">
 	    <a class="navbar-brand" href="/">
-	    	<i class="bi bi-house-door icon" style="width:200"></i>
+			<i class="bi bi-2-circle">조</i>
 	    </a>    
     </div>
     
@@ -23,12 +23,15 @@
     <div class="collapse navbar-collapse flex-grow-1 justify-content-center" id="navbarNavDropdown">
       <ul class="navbar-nav" th:with="uri=${#httpServletRequest.requestURI}">
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="/">
           	<i class="bi bi-house-door"></i>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">그룹</a>
+          <a class="nav-link" href="/map/list.do">지도</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/group/list.do">그룹</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">친구</a>
