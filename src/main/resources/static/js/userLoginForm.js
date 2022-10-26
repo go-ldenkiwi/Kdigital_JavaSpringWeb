@@ -29,36 +29,4 @@ userLoginForm.addEventListener('submit', function(event){
 	                alert("로그인 성공")
 				}
 			});
-	
 })
-
-
-/*
-function login(){
-		let userId = userLoginForm.userId.value;
-		let pw = userLoginForm.pw.value;
-	
-		var data = new Object() ;
-		data.username = userId ;
-		data.password = pw ;
-		
-		let jsonData = JSON.stringify(data) ;
-		console.log(jsonData) ;
-		alert(jsonData);
-		
-        fetch("http://localhost:8088/login",{
-            method : "POST",
-            headers :{
-                "Content-Type" : "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(data)  // json ->  qs로 변경
-        }).then(res=>{res.json()})
-         .then(res => {
-				console.log(res);
-			    let jwtToken = res.headers.get("Authorization");
-			    console.log(jwtToken);
-                localStorage.setItem("Authorization", jwtToken);
-                alert(res);
-			});
-}
-*/

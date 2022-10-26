@@ -3,7 +3,9 @@ package com.joongbu.WebSNS.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.joongbu.WebSNS.config.jwt.JwtAuthenticationFilter;
 import com.joongbu.WebSNS.config.jwt.JwtAuthorizationFilter;
+import com.joongbu.WebSNS.config.oauth.PrincipalOauth2UserService;
 import com.joongbu.WebSNS.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,8 @@ public class SecurityConfig{
 	@Autowired
 	UserMapper usermapper;
 	
+	@Autowired
+	private PrincipalOauth2UserService principalOauth2UserService;
 
 	@Autowired
 	private CorsConfig corsConfig;
@@ -34,20 +39,22 @@ public class SecurityConfig{
 	public BCryptPasswordEncoder passwordEncoder(){
 	    return new BCryptPasswordEncoder();
 	} 
-
+	
+	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
+			.and()
 				.formLogin().disable()
 				.httpBasic().disable()
 				.apply(new MyCustomDsl()) // 커스텀 필터 등록
-				.and()
+			.and()
 	            .authorizeHttpRequests(authorize -> authorize
 	            .anyRequest().permitAll())
-				.build();
+	            .build();
+		
 	}
 
 	public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
