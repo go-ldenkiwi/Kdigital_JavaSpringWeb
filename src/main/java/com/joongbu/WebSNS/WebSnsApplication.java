@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"/src/main/java/com.joongbu.WebSNS.mapper"})
 public class WebSnsApplication {
 
 

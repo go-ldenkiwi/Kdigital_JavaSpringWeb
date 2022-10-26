@@ -16,5 +16,8 @@ public class BoardReplyController {
 	BoardReplyMapper boardReplyMapper;
 	
 	@GetMapping("/list.do")
-	public void list() {}
+	public String list() {
+		System.out.println("dd");
+		return "/reply/list";
+	}
 }
