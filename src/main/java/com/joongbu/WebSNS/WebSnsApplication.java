@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"/src/main/java/com.joongbu.WebSNS.mapper"})
 public class WebSnsApplication {
 
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(WebSnsApplication.class, args);
 		
