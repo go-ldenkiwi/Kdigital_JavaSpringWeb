@@ -23,7 +23,7 @@ public class GroupController {
 		GroupDto group = null;
 		try {
 			group=groupMapper.detail(groupNo);
-		
+			System.out.println(group);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
