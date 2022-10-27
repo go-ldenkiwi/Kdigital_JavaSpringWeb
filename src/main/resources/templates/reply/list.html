@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="list-group">
+	<th:block th:each="reply:${replyList}">
+	  	<div th:id="'replyLi'+${reply.replyNo}" class="list-group-item list-group-item-action py-3" aria-current="true">
+		    <div class="d-flex w-100 justify-content-between">
+		      <small th:text="${#dates.format(reply.postTime,'HH:mm:ss yyyy-MM-dd')}"></small>
+		    </div>
+		    <div class="mb-1 d-flex justify-content-between align-items-center">
+			    <div>
+				    <span class="me-2" th:text="${reply.userNo}"></span>
+				</div>
+				<button th:onclick="readReplyUpdateForm([[${reply.replyNo}]])"
+				class="btn btn-outline-secondary btn-sm" type="button">수정</button>
+		    </div>
+		    <div class="mb-1">
+		    	<span class="col-10" th:text="${reply.contents}"></span>
+		    </div>
+	 	</div>
+	 </th:block>
+</div>
+</html>

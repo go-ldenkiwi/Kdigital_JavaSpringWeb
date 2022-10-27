@@ -16,15 +16,24 @@
 			<result column="i_boardNo" property="boardNo"/>
 			<result column="i_imgPath" property="imgPath"/>
 		</collection>
+		<collection property="boardReplyList" ofType="BoardReplyDto">
+			<id column="replyNo" property="replyNo"/>
+			<result column="r_boardNo" property="boardNo"/>
+			<result column="r_contents" property="contents"/>
+			<result column="r_postTime" property="postTime"/>
+			<result column="r_userNo" property="userNo"/>
+		</collection>
 	</resultMap>
 	<select id="list" resultType="BoardDto">
 		SELECT * FROM MAIN_BOARD
 	</select>
 	<select id="detail" resultMap="BoardMap">
 		SELECT b.*, i.boardImgNo, 
-		i.imgPath i_imgPath, i.boardNo i_boardNo
-		FROM MAIN_BOARD b LEFT JOIN MAIN_BOARD_IMG i 
-		USING(boardNo) WHERE boardNo=#{boardNo}
+		i.imgPath i_imgPath, i.boardNo i_boardNo, 
+		r.replyNo, r.boardNo r_boardNo, r.contents r_contents, r.postTime r_postTime, r.userNo r_userNo
+		FROM MAIN_BOARD b LEFT JOIN MAIN_BOARD_IMG i USING(boardNo)
+		LEFT JOIN MAIN_BOARD_REPLY r USING(boardNo) 
+		WHERE boardNo=#{boardNo}
 	</select>
 	<!--  useGeneratedKeys="true" keyProperty="boardNo" : 파라미터로 넘어온 boardDto에 boardNo가 넘어온다. -->
 	<insert id="insert" parameterType="BoardDto"

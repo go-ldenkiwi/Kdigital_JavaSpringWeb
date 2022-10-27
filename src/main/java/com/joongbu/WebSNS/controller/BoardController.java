@@ -158,7 +158,7 @@ public class BoardController {
 					System.out.println("파일 삭제 성공: "+file.delete());
 					imgDelete=boardService.boardImgDelete(imgNo);
 					if(imgDelete>0) {
-						System.out.println("이미지 db 삭제 성공");
+						System.out.println("이미지 db에서 삭제 성공");
 					}
 				}
 			}

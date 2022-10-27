@@ -10,11 +10,18 @@
 		(#{contents}, #{boardNo}, #{userNo})
 	</insert>
 	<delete id="delete">
-		DELETE FROM MAIN_BOARD REPLY WHERE replyNo=#{replyNo}
+		DELETE FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
 	</delete>
 	<update id="update" parameterType="BoardReplyDto">
-		UPDATE REPLY SET
+		UPDATE MAIN_BOARD_REPLY SET
 		contents=#{contents} 
 		WHERE replyNo=#{replyNo}
 	</update>
+	<select id="list" resultType="BoardReplyDto">
+		SELECT * FROM MAIN_BOARD_REPLY
+		WHERE boardNo=#{boardNo}
+	</select>
+	<select id="detail" resultType="BoardReplyDto">
+		SELECT * FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
+	</select>
 </mapper>

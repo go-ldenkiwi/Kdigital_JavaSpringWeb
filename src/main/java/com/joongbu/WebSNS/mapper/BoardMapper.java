@@ -13,5 +13,4 @@ public interface BoardMapper {
 	int insert(BoardDto board);
 	int update(BoardDto board);
 	int delete(int boardNo);
-	int maxIndex();
 }

@@ -5,52 +5,41 @@
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
 <style type="text/css">
-.drag-over { 
-	background-color: #ff0; 
+#uploadBox img{
+	width: 200px;
+	heigh:200px;
 }
-.thumb { 
-	width:200px;
-	padding:5px;
-	float:left;
-}
-.thumb > img { 
-	width:100%;
-}
-.thumb > .close { 
-	position:absolute;
-	background-color:red;
-	cursor:pointer;
-}
-
 </style>
 </head>
 <body>
 <header th:include="/headerNav"></header>
 	<form enctype="multipart/form-data" action="/board/insert.do" method="POST">
-		<input type="hidden" value="1" name="userNo">추후 수정 유저 번호 들어갈 부분
+		<input type="hidden" value="1" name="userNo">
 		<div class="mb-3">
 		  <textarea class="form-control" name="contents" rows="3"></textarea>
 		</div>
 		
 		<div>
-			<select name="category" >
-				<option th:value="food">음식</option>
-				<option th:value="sport">스포츠</option>
-				<option th:value="sights">명소</option>
-				<option th:value="etc" selected>기타</option>
+			<label for="selCategory">카테고리</label>
+			<select name="category" id="selCategory">
+				<option th:value="food">food</option>
+				<option th:value="sport">sport</option>
+				<option th:value="sights">sights</option>
+				<option th:value="etc" selected>etc</option>
 			</select>
 		</div>
-	
-		<input type="number" name="mapConfirm" value=0>지도 여부
-		<div class="mb-3">
+		<div>
+			<label for="map">지도</label>
+			<input type="number" name="mapConfirm" id="map" value=0>
+		</div>
+		<div class="mb-3" id="uploadBox" style="border:1px solid black; width:800px; height:300px; padding:3px">
 		  <input name="img" class="form-control" type="file" id="inputImg" multiple
 		  onchange="setThumbnail(event)">
 		  <div id="imgContainer"></div>
-		  <div id="drop" style="border:1px solid black; width:800px; height:300px; padding:3px">
-		  </div>
+		  <span id="fileNm"></span>
 		</div>
-		<button>글쓰기</button>
-		<button type="reset">초기화</button>
+		<button class="btn btn-outline-primary">글쓰기</button>
+		<button class="btn btn-outline-danger" type="reset">초기화</button>
 	</form>
 </body>
 </html>
