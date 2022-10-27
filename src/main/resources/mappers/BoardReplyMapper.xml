@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.joongbu.WebSNS.mapper.BoardReplyMapper">
+	<insert id="insert" parameterType="BoardReplyDto">
+		INSERT INTO MAIN_BOARD_REPLY
+		(contents, boardNo, userNo)
+		VALUES
+		(#{contents}, #{boardNo}, #{userNo})
+	</insert>
+	<delete id="delete">
+		DELETE FROM MAIN_BOARD REPLY WHERE replyNo=#{replyNo}
+	</delete>
+	<update id="update" parameterType="BoardReplyDto">
+		UPDATE REPLY SET
+		contents=#{contents} 
+		WHERE replyNo=#{replyNo}
+	</update>
+</mapper>

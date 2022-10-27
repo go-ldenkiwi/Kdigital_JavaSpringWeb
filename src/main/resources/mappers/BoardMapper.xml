@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.joongbu.WebSNS.mapper.BoardMapper">
+	<resultMap type="BoardDto" id="BoardMap">
+		<id column="boardNo" property="boardNo"/>
+		<result column="postTime" property="postTime"/>
+		<result column="userNo" property="userNo"/>
+		<result column="category" property="category"/>
+		<result column="contents" property="contents"/>
+		<result column="mapConfirm" property="mapConfirm"/>
+		<result column="boardReport" property="boardReport"/>
+		<collection property="boardImgList" ofType="BoardImgDto">
+			<id column="boardImgNo" property="boardImgNo"/>
+			<result column="i_boardNo" property="boardNo"/>
+			<result column="i_imgPath" property="imgPath"/>
+		</collection>
+	</resultMap>
+	<select id="list" resultType="BoardDto">
+		SELECT * FROM MAIN_BOARD
+	</select>
+	<select id="detail" resultMap="BoardMap">
+		SELECT b.*, i.boardImgNo, 
+		i.imgPath i_imgPath, i.boardNo i_boardNo
+		FROM MAIN_BOARD b LEFT JOIN MAIN_BOARD_IMG i 
+		USING(boardNo) WHERE boardNo=#{boardNo}
+	</select>
+	<!--  useGeneratedKeys="true" keyProperty="boardNo" : 파라미터로 넘어온 boardDto에 boardNo가 넘어온다. -->
+	<insert id="insert" parameterType="BoardDto"
+	useGeneratedKeys="true" keyProperty="boardNo">
+		INSERT INTO MAIN_BOARD
+		(contents, userNo, category, mapConfirm)
+		VALUES
+		(#{contents}, #{userNo}, #{category}, #{mapConfirm})
+	</insert>
+	<update id="update" parameterType="BoardDto">
+		UPDATE MAIN_BOARD SET 
+		contents=#{contents}, category=#{category}
+		WHERE boardNo=#{boardNo}
+	</update>
+	<delete id="delete">
+		DELETE FROM MAIN_BOARD WHERE boardNo=#{boardNo}
+	</delete>
+</mapper>
