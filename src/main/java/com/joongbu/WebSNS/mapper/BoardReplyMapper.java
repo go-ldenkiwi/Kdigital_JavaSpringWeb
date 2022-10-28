@@ -8,9 +8,10 @@ import com.joongbu.WebSNS.dto.BoardReplyDto;
 
 @Mapper
 public interface BoardReplyMapper {
-	List<BoardReplyDto> list(int boardNo, int startRow, int rows);
-	BoardReplyDto detail(int replyNo);
-	int insert(BoardReplyDto boardReply);
-	int update(BoardReplyDto boardReply);
+
+	int insert(BoardReplyDto reply);
 	int delete(int replyNo);
+	int update(BoardReplyDto reply);
+	List<BoardReplyDto> list(int boardNo);
+	BoardReplyDto detail(int replyNo);
 }

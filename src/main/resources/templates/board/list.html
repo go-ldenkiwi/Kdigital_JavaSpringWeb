@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.board{
+	display:flex;
+	justify-content: center;
+	flex-direction:row;
+	margin:20px auto;
+}
+.mainBoardImg{
+	width: 800px;
+	height: 300px;
+	border:1px solid;
+}
+.mainBoardContent{
+	width:800px;
+	height:100px;
+	border:1px solid;
+}
+.mainBoardReply{
+	width:250px;
+	height:400px;
+	border:1px solid;
+}
+</style>
+</head>
+<body>
+<header th:include="/headerNav"></header>
+<a th:href="@{/board/insert.do}">글쓰기</a>
+<main class="container ">
+	<div class="board"
+	th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'"
+	th:each="board:${boardList}">
+		<div>
+			<div class="mainBoardImg row row-cols-2">
+				<th:block th:each="img:${board.boardImgList}" >
+					<img class="col" style="width: 100px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+				</th:block>
+			</div>
+			<div class="mainBoardContent row">
+				<span th:text="${board.contents}"></span>
+			</div>
+		</div>
+		<div class="mainBoardReply"></div>
+	</div>
+</main>
+</body>
+</html>

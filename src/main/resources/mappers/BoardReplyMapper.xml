@@ -1,44 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.joongbu.WebSNS.mapper.BoardReplyMapper">
-  	<resultMap type="BoardReplyDto" id="BoardReplyMap">
-  		<id column="replyNo" property="replyNo" />
-  		<result column="boardNo" property="boardNo"/>
-  		<result column="userNo" property="userNo"/>
-  		<result column="contents" property="contents"/>
-  		<result column="postTime" property="postTime"/>
-  	</resultMap>
-  	
-  	<insert id="insert" parameterType="BoardReplyDto">
-  		INSERT INTO MAIN_BOARD_REPLY
-  		(boardNo,userNo,contents)
-  		VALUES
-  		(#{boardNo},#{userNo},#{contents})
-  	</insert>
-  	
-  	<update id="update" parameterType="BoardReplyDto">
-  		UPDATE MAIN_BOARD_REPLY SET
-  			contents=#{contents}
-  			WHERE replyNo=#{replyNo}
-  	</update>
-  	
-  	
-  	<delete id="delete">
-  		DELETE FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
-  	</delete>
-  	
-  	<select id="detail" resultMap="BoardReplyMap">
-  		SELECT * FROM REPLY WHERE replyNo=#{replyNo}
-  	</select>
-  	
-  	<select id="list" resultMap="BoardReplyMap">
-  		SELECT * FROM MAIN_BOARD_REPLY
-  			WHERE boardNo=#{boardNo}
-  			ORDER BY replyNo DESC
-  			LIMIT #{startRow},#{rows}
-  	</select>
-  	
-  </mapper>
+<mapper namespace="com.joongbu.WebSNS.mapper.BoardReplyMapper">
+	<insert id="insert" parameterType="BoardReplyDto">
+		INSERT INTO MAIN_BOARD_REPLY
+		(contents, boardNo, userNo)
+		VALUES
+		(#{contents}, #{boardNo}, #{userNo})
+	</insert>
+	<delete id="delete">
+		DELETE FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
+	</delete>
+	<update id="update" parameterType="BoardReplyDto">
+		UPDATE MAIN_BOARD_REPLY SET
+		contents=#{contents} 
+		WHERE replyNo=#{replyNo}
+	</update>
+	<select id="list" resultType="BoardReplyDto">
+		SELECT * FROM MAIN_BOARD_REPLY
+		WHERE boardNo=#{boardNo}
+	</select>
+	<select id="detail" resultType="BoardReplyDto">
+		SELECT * FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
+	</select>
+</mapper>
+
