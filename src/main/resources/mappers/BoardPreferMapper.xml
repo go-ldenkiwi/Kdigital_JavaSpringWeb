@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joongbu.WebSNS.mapper.BoardPreferMapper">
+	<select id="detail" resultType="BoardPreferDto">
+		SELECT * FROM MAIN_BOARD_PREFER 
+		WHERE userNo=#{userNo} AND boardNo=#{boardNo}
+	</select>
+	<insert id="insert" parameterType="BoardPreferDto">
+		INSERT INTO MAIN_BOARD_PREFER 
+		(boardNo, prefer, userNo)
+		VALUES
+		(#{boardNo}, #{prefer}, #{userNo})
+	</insert>
+	<update id="update" parameterType="BoardPreferDto">
+		UPDATE MAIN_BOARD_PREFER SET
+		prefer=#{prefer} WHERE boardPreferNO=#{boardPreferNO}
+	</update>
+	<delete id="delete">
+		DELETE FROM MAIN_BOARD_PREFER WHERE boardPreferNO=#{boardPreferNO}
+	</delete>
+</mapper>

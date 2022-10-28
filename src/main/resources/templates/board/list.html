@@ -28,12 +28,13 @@
 </style>
 </head>
 <body>
-<header th:include="/headerNav"></header>
+<header th:include="/nav/headerNav"></header>
 <a th:href="@{/board/insert.do}">글쓰기</a>
 <main class="container ">
+	<th:block th:each="board:${boardList}">
+	<span th:text="${board.user.username}"></span>
 	<div class="board"
-	th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'"
-	th:each="board:${boardList}">
+	th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
 		<div>
 			<div class="mainBoardImg row row-cols-2">
 				<th:block th:each="img:${board.boardImgList}" >
@@ -46,6 +47,7 @@
 		</div>
 		<div class="mainBoardReply"></div>
 	</div>
+	</th:block>
 </main>
 </body>
 </html>

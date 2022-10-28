@@ -25,4 +25,9 @@
 			WHERE userId=#{userId}
 	</select>
 	
+	<!-- userNo으로 user 정보 찾기 -->
+	<select id="detailFindByUserNo" resultType="UserDto">
+		SELECT * FROM USER WHERE userNo=#{userNo}
+	</select>
+	
 </mapper>
