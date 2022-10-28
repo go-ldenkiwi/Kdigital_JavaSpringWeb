@@ -9,5 +9,7 @@ public interface UserMapper {
 	UserDto detail(String userId);
 	int insert(UserDto user);
 	UserDto login(String userId,String pw);
-	UserDto findbyuserId(String username);
+	UserDto findbyuserId(String userId);
+	UserDto findbyusername(String username);
+	int update(UserDto user);
 }

@@ -7,10 +7,12 @@
 <script defer="defer" src="/js/userSignUpForm.js"></script>
 </head>
 <body>
-<main class="container mx-auto mt-5" style="max-width: 600px;">
+<header th:include="/nav/headerNav"></header>
+<main class="container mx-auto mt-5" style="max-width: 500px;">
 
 <form class="form-floating mb-3 needs-validation" novalidate name="userSignUpForm"  action="/user/signup.do" method="post" >
 
+<h1 class="mt-5 mb-5 text-center " >Signup</h1>
 		<div class="form-floating mb-3">
 		  <input type="text" class="form-control "  name="userId" placeholder="Id"   value=""  
 		  required minlength="6"  maxlength="10" > 
@@ -66,10 +68,10 @@
 		  	</div>
 		</div>
 
-		<p>
-		<button type="reset" class="btn btn-outline-secondary">초기화</button>
-		<button type="submit" id="submitbtn" class="btn btn-outline-primary">등록</button>
-		</p>
+		<div class="d-flex justify-content-end ">
+		<button type="reset" class="btn btn-outline-secondary m-1">초기화</button>
+		<button type="submit" id="submitbtn" class="btn btn-outline-primary  m-1">가입</button>
+		</div>
 	</form>
 	</main>
 </body>
