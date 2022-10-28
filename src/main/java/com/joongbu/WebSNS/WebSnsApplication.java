@@ -9,6 +9,7 @@ public class WebSnsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebSnsApplication.class, args);
+		
 	}
 
 }

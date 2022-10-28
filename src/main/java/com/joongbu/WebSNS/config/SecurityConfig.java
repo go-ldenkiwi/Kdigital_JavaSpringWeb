@@ -14,8 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.joongbu.WebSNS.config.jwt.JwtAuthenticationFilter;
-import com.joongbu.WebSNS.config.jwt.JwtAuthorizationFilter;
+import com.joongbu.WebSNS.config.oauth.Oauth2SuccessHandler;
 import com.joongbu.WebSNS.config.oauth.PrincipalOauth2UserService;
 import com.joongbu.WebSNS.mapper.UserMapper;
 
@@ -29,6 +28,12 @@ public class SecurityConfig{
 	@Autowired
 	UserMapper usermapper;
 	
+    @Autowired
+    private Oauth2SuccessHandler oauth2SuccessHandler;
+    
+    @Autowired
+    private LoginFailureHandler loginFailureHandler;
+
 	@Autowired
 	private PrincipalOauth2UserService principalOauth2UserService;
 
@@ -43,17 +48,29 @@ public class SecurityConfig{
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http
+		 http
 				.csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.formLogin().disable()
-				.httpBasic().disable()
 				.apply(new MyCustomDsl()) // 커스텀 필터 등록
 			.and()
-	            .authorizeHttpRequests(authorize -> authorize
-	            .anyRequest().permitAll())
-	            .build();
+	            .authorizeHttpRequests()
+	            .antMatchers().authenticated()
+	            .anyRequest().permitAll()
+			.and()
+				.formLogin()
+				.loginPage("/user/login")
+				.loginProcessingUrl("/login")
+				.successForwardUrl("/user/loginhelp")
+				.failureHandler(loginFailureHandler)
+//				.defaultSuccessUrl("/", true)
+	    	.and()
+	    		.oauth2Login()
+	    		.successHandler(oauth2SuccessHandler)
+	    		.userInfoEndpoint()
+	    		.userService(principalOauth2UserService);
+
+	    		
+	    		return http.build();
+		
 		
 	}
 
@@ -61,11 +78,7 @@ public class SecurityConfig{
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-			http
-					.addFilter(corsConfig.corsFilter())
-					.addFilter(new JwtAuthenticationFilter(authenticationManager))
-					.addFilter(new JwtAuthorizationFilter(authenticationManager, usermapper));
+			http.addFilter(corsConfig.corsFilter());
 		}
 	}
-
 }

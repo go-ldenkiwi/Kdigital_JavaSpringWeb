@@ -1,4 +1,4 @@
-package com.joongbu.WebSNS.config.jwt;
+package com.joongbu.WebSNS.config.oauth;
 
 public interface JwtProperties {
 	String SECRET = "권용호"; // 우리 서버만 알고 있는 비밀값
