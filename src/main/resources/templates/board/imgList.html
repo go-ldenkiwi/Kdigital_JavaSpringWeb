@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="list-group">
+	<th:block th:each="img:${imgList}">
+	<p>imgNo
+  		<span th:text="${img.boardImgNo}"></span>
+  	</p>
+  	<div class="mb-1">
+	    <img style="width: 200px; height: 200px;" th:if="${img.imgPath!=null}" class="col-2" alt="" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+	</div>
+</div>

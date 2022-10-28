@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/js/board.js" defer="defer"></script>
+</head>
+<body>
+	<header th:include="/headerNav"></header>
+	<main class="container mt-5">
+		<div>
+			<p>
+				<span th:text="${board.boardNo}"></span>
+			</p>
+			<p>
+				<span th:text="${board.contents}"></span>
+			</p>
+			<p>
+				<span th:text="${board.postTime}"></span>
+			</p>
+			<p>
+				<span th:text="${board.category}"></span>
+			</p>
+			
+			<section id="imgList">
+				<th:block th:include="/board/imgList" th:with="imgList=${board.boardImgList},boardNo=${board.boardNo}">			
+			</section>
+		</div>
+		
+		<a class="btn btn-outline-primary" th:href="@{/board/update.do?(boardNo=${board.boardNo})}">수정</a>
+		<a class="btn btn-outline-danger" th:href="@{/board/delete.do?(boardNo=${board.boardNo})}">삭제</a>
+		
+		<form name="replyInsertForm" action="/reply/insert.do" method="post">
+			<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+			<!-- 임시로 넣어 놓은 userNo -->
+			<input type="hidden" name="userNo" value="2">
+			<p class="form-floating">
+				<textarea class="form-control" name="contents" id="replyContents"></textarea>
+			</p>
+			<div class="input-group">
+				<button class="btn btn-outline-primary">등록</button>
+			</div>
+		</form>
+		<section id="replyList" class="mt-3 collapse show">
+			<th:block th:include="/reply/list" th:with="replyList=${board.boardReplyList}, boardNo=${board.boardNo}"></th:block>
+		</section>
+	</main>
+</body>
+</html>
