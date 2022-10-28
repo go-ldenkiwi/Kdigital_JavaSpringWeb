@@ -8,8 +8,8 @@
 	<!-- 로그인 한 계정만, 로그인한 계정의 아이디가 같은 그룹 리스트만 출력 -->
 	<div th:each="group : ${groupList}" class="card" style="width: 18rem;">
 	 	<div class="card-body">
-		    <h5 class="card-title">그룹 제목</h5>
-		    <p class="card-text">깃 테스트 변경사항</p>
+		    <h5 class="card-title" th:text="${group.groupName}"></h5>
+		    <p class="card-text" th:text="${group.groupDesc}"></p>
 		    <a href="#" class="btn btn-primary">자세히 알아보기</a>
 
 	 	 </div>

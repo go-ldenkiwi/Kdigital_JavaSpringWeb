@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>홈</title>
+</head>
+<style>
+div {
+border : 1px solid green;
+}
+</style>
+  
+	<body>
+		<header th:include="/nav/headerNav"></header>
+		<main class="d-flex w-100 h-100">
+			<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
+			<div class="w-100 h-100">
+				<h3>그룹 게시판</h3>
+					<p class="d-flex justify-content-end">
+					<a class="btn btn-outline-primary" href="">
+						게시글 등록
+					</a>
+				</p>
+				
+				<table class="table mt-3">
+					<thead>
+						<tr>
+							<th>no</th>
+							<th>제목</th>
+							<th>게시일</th>
+							<th>글쓴이</th>
+							<th>views</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="link-secondary"
+							th:each="groupBoard:${paging.list}"
+							th:onclick="location.href='detail.do?boardNo=[[${groupBoard.groupBoardNo}]]'">
+							<td th:text="${groupBoard.groupBoardNo}"></td>
+							<td th:text="${groupBoard.groupBoardTitle}"></td>
+							<td th:text="${#dates.format(groupBoard.groupBoardTime,'MM월dd일 HH시mm분')}"></td>
+							<td th:text="${groupBoard.userNo}"></td>
+							<td th:text="${groupBoard.groupBoardViews}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<nav th:include="/group/board/pageNav"></nav>
+			</div>
+			
+		</main>
+	</body>
+</html>
