@@ -83,7 +83,7 @@ public class BoardController {
 			) {
 		int insert=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
-		String [] tags=board.getContents().split("/#[^\s#]+/g");
+		String [] tags=board.getContents().split("/");
 		
 		try {
 			for(MultipartFile img : imgList) {
