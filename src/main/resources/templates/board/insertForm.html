@@ -4,42 +4,91 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
-<style type="text/css">
-#uploadBox img{
-	width: 200px;
-	heigh:200px;
+<style>
+div {
+border : 1px solid green;
+}
+#fileNm {
+border: 1px solid red;
+}
+
+.modalbutton button{
+width:250px;
 }
 </style>
 </head>
 <body>
-<header th:include="/headerNav"></header>
-	<form enctype="multipart/form-data" action="/board/insert.do" method="POST">
-		<input type="hidden" value="1" name="userNo">
-		<div class="mb-3">
-		  <textarea class="form-control" name="contents" rows="3"></textarea>
-		</div>
+<header th:include="/nav/headerNav"></header>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		  글 작성 Modal
+		</button>
 		
-		<div>
-			<label for="selCategory">카테고리</label>
-			<select name="category" id="selCategory">
-				<option th:value="food">food</option>
-				<option th:value="sport">sport</option>
-				<option th:value="sights">sights</option>
-				<option th:value="etc" selected>etc</option>
-			</select>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-xl">
+		    <div class="modal-content">
+  		        <form  enctype="multipart/form-data" action="/board/insert.do" method="POST">
+  		        
+		      <div class="modal-header">
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      
+		      <div class="modal-body">
+				<input type="hidden" value="1" name="userNo">
+
+				<div class="d-flex">
+					<div class="boardInputLeft">
+						<div class="input-group mb-3">
+							 <label class="input-group-text" for="selCategory">Choose</label>
+							 <select class="form-select" id="selCategory" name="category">
+								   <option selected>Category</option>
+								   <option value="food">Food</option>
+								   <option value="sport">Sport</option>
+								   <option value="sights">Sights</option>
+								   <option value="etc">etc</option>
+							 </select>
+						</div>
+						
+						<div class="d-flex">
+							<div class="input-group mb-3" id="uploadBox">
+						 		<input name="img" class="form-control" type="file" id="inputImg" multiple onchange="setThumbnail(event)">
+							</div>
+							<div class="input-group mb-3 ms-3 ">
+								 <input type="text" class="form-control" placeholder="HashTag(#)">
+							</div>
+						</div>
+						
+						<div class="input-group mb-3">
+							 <label class="input-group-text" for="map">지도</label>
+							 <input type="number" class="form-control" id="map" value=0>
+						</div>
+												
+						
+						<div class="form-floating">
+							<textarea style="resize: none; height: 300px;"
+								class="form-control" name="contents" id="boardContents" placeholder="내용"></textarea>
+							<label for="boardContents">내용</label>
+						</div>
+						
+					</div>
+					
+					<div class="boarderInputRights d-flex justify-content-center">
+						<div id="imgContainer"></div>
+					</div>
+				</div>
+		      </div>
+		      
+		      <div class="modal-footer d-flex justify-content-center modalbutton">
+				<button class="btn btn-outline-primary me-4">글쓰기</button>
+				<button class="btn btn-outline-danger me-4" type="reset">초기화</button>
+		        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+		      </div>
+		      
+		      </form>
+		    </div>
+		  </div>
 		</div>
-		<div>
-			<label for="map">지도</label>
-			<input type="number" name="mapConfirm" id="map" value=0>
-		</div>
-		<div class="mb-3" id="uploadBox" style="border:1px solid black; width:800px; height:300px; padding:3px">
-		  <input name="img" class="form-control" type="file" id="inputImg" multiple
-		  onchange="setThumbnail(event)">
-		  <div id="imgContainer"></div>
-		  <span id="fileNm"></span>
-		</div>
-		<button class="btn btn-outline-primary">글쓰기</button>
-		<button class="btn btn-outline-danger" type="reset">초기화</button>
-	</form>
+
 </body>
 </html>

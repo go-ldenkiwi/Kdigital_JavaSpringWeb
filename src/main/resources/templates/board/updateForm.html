@@ -12,7 +12,7 @@
 </style>
 </head>
 <body>
-<header th:include="/headerNav"></header>
+<header th:include="/nav/headerNav"></header>
 	<h1>수정폼</h1>
 	<form enctype="multipart/form-data" action="/board/update.do" method="post">
 		<input type="hidden" name="userNo" th:value="${board.userNo}">
