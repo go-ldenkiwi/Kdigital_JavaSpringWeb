@@ -1,10 +1,12 @@
 userSignUpForm.userId.addEventListener('change', function(event){
 	userSignUpForm.userId.classList.remove("is-invalid");
+	userSignUpForm.userId.classList.remove("is-valid");
 	let userId = userSignUpForm.userId.value;
 	let url = "/user/checkUserId.do?userId="+userId;
 	
 	if(userId.length>6 && userId.length < 10)
 	  	{
+			userSignUpForm.userId.classList.add("is-valid");
 			fetch(url)
 			.then((res)=>res.json())
 			.then((res)=>{
@@ -22,7 +24,9 @@ userSignUpForm.userId.addEventListener('change', function(event){
 		else if(userId.length>10){
 			userIdInvalid.innerText = "10자리 이하로 입력해주세요.";
 			userSignUpForm.userId.classList.add("is-invalid");
-		}	
+		}else{
+			userSignUpForm.userId.classList.add("is-valid");
+		}
 })
 
 userSignUpForm.pw.addEventListener('change', function(event){
