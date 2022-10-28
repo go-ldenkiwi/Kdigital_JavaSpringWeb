@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joongbu.WebSNS.mapper.GroupMapper">
+	<select id="list" resultType="com.joongbu.WebSNS.dto.GroupDto">
+		SELECT * FROM GROOP
+	</select>
+	<select id="detail" resultType="com.joongbu.WebSNS.dto.GroupDto">
+		SELECT * FROM GROOP WHERE groupNo=#{groupNo}
+	</select>
+
+</mapper>
