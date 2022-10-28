@@ -31,8 +31,11 @@ public class BoardDto {
 	private String category;
 	private int mapConfirm;
 	private int boardReport;
+	private int likes;
 	// 이미지 정보
 	private List<BoardImgDto> boardImgList;
 	// 댓글
 	private List<BoardReplyDto> boardReplyList;
+	// 유저 정보
+	private UserDto user;
 }

@@ -107,3 +107,27 @@ async function updateReply(formNode){
 	}
 	alert(msg);
 }
+
+// 좋아요
+async function boardPreferModify(e, prefer) {
+	let boardNo=e.target.value
+	let url="/board/prefer.do?boardNo="+boardNo+"&prefer="+prefer+"&userNo=1";
+	let msg=(prefer==1)?"좋아요":"";
+	let resp=await fetch(url);
+	if(resp.status==200){
+		let checkStatus=resp.json();
+		switch(checkStatus.status){
+			case -1: msg="로그인 하세요"; break;
+			case 0: msg="삭제 실패"; break;
+			case 1: msg="등록 성공"; break;
+			case 2: msg="삭제 성공";
+		}
+		if(checkStatus.status>0){
+			let resp=await fetch("/board/preferDetail.do?boardNo="+boardNo+"&userNo=1");
+			if(resp.status==200){
+				let text=await resp.text();
+				preferContainer.innerHTML=text;
+			}
+		}
+	}
+}

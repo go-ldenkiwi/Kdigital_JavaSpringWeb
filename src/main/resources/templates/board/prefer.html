@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="preferContainer">
+	<button class="rounded-pill btn btn-outline-danger" 
+	th:classappend="${prefer==0}?'':'acive'"
+	onclick="boardPreferModify(event,1)"
+	th:vlaue="${board.boardNo}">
+		<i class="bi bi-hand-thumbs-up"></i>
+		<th:block th:text="${board.likes}"></th:block>
+	</button>
+</div>
+</html>

@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.joongbu.WebSNS.dto.BoardDto;
 import com.joongbu.WebSNS.dto.BoardImgDto;
+import com.joongbu.WebSNS.dto.BoardPreferDto;
 import com.joongbu.WebSNS.mapper.BoardImgMapper;
 import com.joongbu.WebSNS.mapper.BoardMapper;
+import com.joongbu.WebSNS.mapper.BoardPreferMapper;
 import com.joongbu.WebSNS.service.BoardService;
+
+import lombok.Data;
 
 @RequestMapping("/board")
 @Controller
@@ -38,15 +43,12 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@Autowired
+	BoardPreferMapper preferMapper;
+	
 	@GetMapping("/list.do")
 	public void boardList(Model model) {
 		List<BoardDto> boardList=boardMapper.list();
-		for(BoardDto board: boardList) {
-			List<BoardImgDto> imgList=imgMapper.list(board.getBoardNo());
-			board.setBoardImgList(imgList);
-			
-			// 유저 정보 가져오는 것도 추가 해야함
-		}
 		model.addAttribute("boardList", boardList);
 	}
 	
@@ -81,6 +83,8 @@ public class BoardController {
 			) {
 		int insert=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
+		String [] tags=board.getContents().split("/#[^\s#]+/g");
+		
 		try {
 			for(MultipartFile img : imgList) {
 				if(!img.isEmpty()) {
@@ -130,7 +134,6 @@ public class BoardController {
 			@RequestParam(name = "boardImgNo", required = false) String [] imgNoList
 			) {
 		int update=0;
-		int imgUpdate=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
 		try {
 			for(MultipartFile img:imgList) {
@@ -191,5 +194,56 @@ public class BoardController {
 		} else {
 			return "redirect:/board/update.do?boardNo="+boardNo;
 		}
+	}
+	
+	@Data
+	class CheckStatus{
+		private int status;
+		// 0: 등록 실패, 1: 등록 성공, -1: 로그인하세요, 2: 삭제 성공
+	}
+	
+	@GetMapping("/prefer.do")
+	public @ResponseBody CheckStatus prefer(
+			@RequestParam(required = true)int boardNo,
+			@RequestParam(required = true)int userNo,
+			@RequestParam(required = true)boolean prefer			
+			) {
+		CheckStatus checkStatus=new CheckStatus();
+		try {
+			BoardPreferDto boardPrefer=preferMapper.detail(userNo, boardNo);
+			if(boardPrefer==null) {
+				boardPrefer=new BoardPreferDto();
+				boardPrefer.setBoardNo(boardNo);
+				boardPrefer.setUserNo(userNo);
+				boardPrefer.setPrefer(prefer);
+				int insert=preferMapper.insert(boardPrefer);
+				checkStatus.setStatus(insert);
+			} else if(boardPrefer.isPrefer()==prefer) {
+				int delete=preferMapper.delete(boardPrefer.getBoardPreferNo());
+				if(delete>0) checkStatus.setStatus(2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return checkStatus;
+	}
+	
+	@GetMapping("/preferDetail.do")
+	public String preferDetail(
+			@RequestParam(required = true) int boardNo,
+			@RequestParam(required = true) int userNo,
+			Model model
+			) {
+		BoardDto board=null;
+		BoardPreferDto boardPrefer = null;
+		try {			
+			board=boardMapper.detail(boardNo);
+			boardPrefer=preferMapper.detail(userNo, boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("board", board);
+		model.addAttribute("boardPrefer", boardPrefer);
+		return "/board/prefer";
 	}
 }

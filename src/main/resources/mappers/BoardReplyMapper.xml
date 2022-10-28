@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
 <mapper namespace="com.joongbu.WebSNS.mapper.BoardReplyMapper">
+	<resultMap type="BoardReplyDto" id="BoardReplyMap">
+		<id column="replyNo" property="replyNo" />
+		<result column="contents" property="contents" />
+		<result column="postTime" property="postTime" />
+		<result column="boardNo" property="boardNo" />
+		<result column="userNo" property="userNo" />
+		
+		<association property="user" 
+		select="com.joongbu.WebSNS.mapper.UserMapper.detailFindByUserNo"
+		column="userNo" fetchType="lazy">
+		</association>
+		
+		<collection property="replyList"
+		select="selfJoinList" column="replyNo" fetchType="lazy"
+		></collection>
+	</resultMap>
 	<insert id="insert" parameterType="BoardReplyDto">
 		INSERT INTO MAIN_BOARD_REPLY
-		(contents, boardNo, userNo)
+		(contents, boardNo, userNo, fkReplyNo)
 		VALUES
-		(#{contents}, #{boardNo}, #{userNo})
+		(#{contents}, #{boardNo}, #{userNo}, #{fkReplyNo})
 	</insert>
 	<delete id="delete">
 		DELETE FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
@@ -17,12 +32,15 @@
 		contents=#{contents} 
 		WHERE replyNo=#{replyNo}
 	</update>
-	<select id="list" resultType="BoardReplyDto">
+	<select id="list" resultMap="BoardReplyMap">
 		SELECT * FROM MAIN_BOARD_REPLY
 		WHERE boardNo=#{boardNo}
 	</select>
-	<select id="detail" resultType="BoardReplyDto">
+	<select id="detail" resultMap="BoardReplyMap">
 		SELECT * FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
+	</select>
+	<select id="selfJoinList" resultMap="BoardReplyMap">
+		SELECT * FROM MAIN_BOARD_REPLY WHERE fkReplyNo=#{replyNo}
 	</select>
 </mapper>
 
