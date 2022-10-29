@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.joongbu.WebSNS.dto.BoardReplyDto;
+import com.joongbu.WebSNS.dto.UserDto;
 import com.joongbu.WebSNS.mapper.BoardReplyMapper;
 import com.joongbu.WebSNS.service.BoardReplyService;
 
@@ -38,44 +40,63 @@ public class BoardReplyController {
 	
 	@PostMapping("/insert.do")
 	public @ResponseBody CheckStatus insert(
-			BoardReplyDto reply
+			BoardReplyDto reply,
+			@SessionAttribute(required = false) UserDto loginUser
 			) {
-		int insert=0;
 		CheckStatus checkStatus=new CheckStatus();
-		try {
-			System.out.println(reply);
-			insert=replyMapper.insert(reply);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(loginUser!=null) {
+			reply.setUserNo(loginUser.getUserNo());
+			int insert=0;
+			try {
+				insert=replyMapper.insert(reply);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			checkStatus.setStatus(insert);
+		}else {
+			checkStatus.setStatus(-1);
 		}
-		checkStatus.setStatus(insert);
 		return checkStatus;
 	}
 	
 	@GetMapping("/update.do")
 	public String update(
 			@RequestParam(required = true) int replyNo,
+			@SessionAttribute(required = false) UserDto loginUser,
 			Model model,
 			HttpServletResponse resp
 			) {
 		BoardReplyDto reply=null;
-		try {			
-			reply=replyMapper.detail(replyNo);
-		} catch (Exception e) {
-			e.printStackTrace();
+		reply=replyMapper.detail(replyNo);
+		if(loginUser.getUserNo()==reply.getUserNo()) {			
+			model.addAttribute("reply",reply);
+			return "/reply/update";
+		}else {
+			resp.setStatus(401); // Unauthorized
+			return null;
 		}
-		model.addAttribute("reply",reply);
-		return "/reply/update";
 	}
 	
 	@GetMapping("/delete.do")
 	public @ResponseBody CheckStatus delete(
-			@RequestParam(required = true) int replyNo
+			@RequestParam(required = true) int replyNo,
+			@SessionAttribute(required = false) UserDto loginUser
 			) {
 		CheckStatus checkStatus=new CheckStatus();
+		if(loginUser==null) {
+			checkStatus.setStatus(-1);
+			return checkStatus;
+		}
+		BoardReplyDto reply=null;
 		int delete=0;
 		try {
-			delete=replyMapper.delete(replyNo);
+			reply=replyMapper.detail(replyNo);
+			if(reply.getUserNo()==loginUser.getUserNo()) {				
+				delete=replyMapper.delete(replyNo);
+			}else {
+				checkStatus.setStatus(-2);
+				return checkStatus;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,10 +106,18 @@ public class BoardReplyController {
 	
 	@PostMapping("/update.do")
 	public @ResponseBody CheckStatus update(
-			BoardReplyDto reply
+			BoardReplyDto reply,
+			@SessionAttribute(required = false) UserDto loginUser
 			) {
-		int update=0;
+		int update=0;  
 		CheckStatus checkStatus=new CheckStatus();
+		if(loginUser==null) {
+			checkStatus.setStatus(-1);
+			return checkStatus;
+		} else if(loginUser.getUserNo()!=reply.getUserNo()) {
+			checkStatus.setStatus(-2);
+			return checkStatus;
+		}
 		try {
 			update=replyMapper.update(reply);
 		} catch (Exception e) {
