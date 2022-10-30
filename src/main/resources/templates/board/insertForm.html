@@ -4,24 +4,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
-<style type="text/css">
-#uploadBox img{
-	width: 200px;
-	heigh:200px;
+<style>
+div {
+border : 1px solid green;
+}
+#fileNm {
+border: 1px solid red;
+}
+
+.modalbutton button{
+width:250px;
 }
 </style>
 </head>
 <body>
 <header th:include="/nav/headerNav"></header>
 	<form enctype="multipart/form-data" action="/board/insert.do" method="POST">
-		<input type="hidden" value="1" name="userNo">
+		<input type="hidden" th:value="${session.loginUser.userNo}" name="userNo">
 		<div class="mb-3">
 		  <textarea class="form-control" name="contents" rows="3"></textarea>
 		</div>
 		
 		<div>
 			<label for="selCategory">카테고리</label>
-			<select name="category" id="selCategory">
+			<select class="form-select" name="category" id="selCategory">
 				<option th:value="food">food</option>
 				<option th:value="sport">sport</option>
 				<option th:value="sights">sights</option>
@@ -38,8 +44,6 @@
 		  <div id="imgContainer"></div>
 		  <span id="fileNm"></span>
 		</div>
-		<button class="btn btn-outline-primary">글쓰기</button>
-		<button class="btn btn-outline-danger" type="reset">초기화</button>
-	</form>
+
 </body>
 </html>

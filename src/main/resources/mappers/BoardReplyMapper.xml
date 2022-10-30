@@ -8,6 +8,7 @@
 		<result column="postTime" property="postTime" />
 		<result column="boardNo" property="boardNo" />
 		<result column="userNo" property="userNo" />
+		<result column="fkReplyNo" property="fkReplyNo" />
 		
 		<association property="user" 
 		select="com.joongbu.WebSNS.mapper.UserMapper.detailFindByUserNo"
@@ -15,9 +16,13 @@
 		</association>
 		
 		<collection property="replyList"
-		select="selfJoinList" column="replyNo" fetchType="lazy"
-		></collection>
+		select="selfJoinList" column="replyNo" fetchType="lazy">
+			<collection property="replyList"
+			select="selfJoinList" column="replyNo" fetchType="lazy">
+			</collection>
+		</collection>
 	</resultMap>
+	
 	<insert id="insert" parameterType="BoardReplyDto">
 		INSERT INTO MAIN_BOARD_REPLY
 		(contents, boardNo, userNo, fkReplyNo)
@@ -34,7 +39,7 @@
 	</update>
 	<select id="list" resultMap="BoardReplyMap">
 		SELECT * FROM MAIN_BOARD_REPLY
-		WHERE boardNo=#{boardNo}
+		WHERE boardNo=#{boardNo} AND fkReplyNo IS NULL
 	</select>
 	<select id="detail" resultMap="BoardReplyMap">
 		SELECT * FROM MAIN_BOARD_REPLY WHERE replyNo=#{replyNo}
