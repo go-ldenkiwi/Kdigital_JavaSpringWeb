@@ -40,5 +40,5 @@
 	<select id="detailFindByUserNo" resultType="UserDto">
 		SELECT * FROM USER WHERE userNo=#{userNo}
 	</select>
-	
+
 </mapper>
