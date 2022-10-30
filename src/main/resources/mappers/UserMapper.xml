@@ -25,4 +25,10 @@
 			WHERE userId=#{userId}
 	</select>
 	
+	<update id="update"  parameterType="UserDto">
+			UPDATE USER SET
+			pw=#{pw}
+			WHERE userId=#{userId}
+	</update>
+	
 </mapper>

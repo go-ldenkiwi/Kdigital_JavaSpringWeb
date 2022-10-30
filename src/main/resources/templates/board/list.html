@@ -32,18 +32,22 @@ width:250px;
 </style>
 </head>
 <body>
+
 		<div class="board"
 		th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'"
 		th:each="board:${boardList}">
 			<div>
+      
 				<div class="mainBoardImg row row-cols-2">
 					<th:block th:each="img:${board.boardImgList}" >
 						<img class="col" style="width: 100px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}">
 					</th:block>
 				</div>
+        
 				<div class="mainBoardContent row">
 					<span th:text="${board.contents}"></span>
 				</div>
+        
 			</div>
 			<div class="mainBoardReply"></div>
 		</div>
@@ -121,5 +125,6 @@ width:250px;
 		    </div>
 		  </div>
 		</div>
+
 </body>
 </html>

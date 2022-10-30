@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import com.joongbu.WebSNS.dto.BoardReplyDto;
 import com.joongbu.WebSNS.mapper.BoardReplyMapper;
 import com.joongbu.WebSNS.service.BoardReplyService;
@@ -87,7 +86,7 @@ public class BoardReplyController {
 	public @ResponseBody CheckStatus update(
 			BoardReplyDto reply
 			) {
-		System.out.println(reply);
+
 		int update=0;
 		CheckStatus checkStatus=new CheckStatus();
 		try {

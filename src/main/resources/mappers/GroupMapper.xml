@@ -9,5 +9,10 @@
 	<select id="detail" resultType="com.joongbu.WebSNS.dto.GroupDto">
 		SELECT * FROM GROOP WHERE groupNo=#{groupNo}
 	</select>
+	<select id="myList" resultType="com.joongbu.WebSNS.dto.GroupUserRegisteredDto">
+		SELECT * FROM USER_REGISTERED_GROOP WHERE userNo=#{user.userNo}
+	</select>
+	
+	
 
 </mapper>

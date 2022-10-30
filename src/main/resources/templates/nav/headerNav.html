@@ -31,7 +31,7 @@
           <a class="nav-link" href="/map/list.do">지도</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/group/list.do">그룹</a>
+          <a class="nav-link" href="/group/board/list.do">그룹 게시판</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">친구</a>
@@ -50,7 +50,7 @@
 	    		<li class="nav-item">
 			    	<a class="nav-link" th:href="@{/user/detail.do(userId=${session.loginUser.userId})}">
 			    		<th:block th:text="${session.loginUser.userId}"></th:block>
-			    		(<th:block th:text="${session.loginUser.name}"></th:block>)
+			    		(<th:block th:text="${session.loginUser.nickname}"></th:block>)
 			    	</a>
 		    	</li>
 		    	<li class="nav-item">
@@ -62,5 +62,13 @@
 	   
   </div>
 </nav>
+
+<th:block th:if="${session.msg!=null}">
+	<script th:inline="javascript">
+		let msg=/*[[${session.msg}]]*/+"";
+		alert(msg);
+		/*[[${#session.removeAttribute('msg')}]]*/
+	</script>
+</th:block>	
 
 </html>
