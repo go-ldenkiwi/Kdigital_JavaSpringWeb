@@ -43,7 +43,6 @@ public class BoardReplyController {
 		int insert=0;
 		CheckStatus checkStatus=new CheckStatus();
 		try {
-			System.out.println(reply);
 			insert=replyMapper.insert(reply);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,6 +86,7 @@ public class BoardReplyController {
 	public @ResponseBody CheckStatus update(
 			BoardReplyDto reply
 			) {
+
 		int update=0;
 		CheckStatus checkStatus=new CheckStatus();
 		try {
