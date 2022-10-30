@@ -4,47 +4,113 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
-<style type="text/css">
+<style>
+/* div{
+	border: 1px solid green;
+} */
+
+.container{
+	border: 1px solid #eee;
+}
+
+.sideNav{
+	 width:170px;
+}
+
+.updateForm{
+	width: 650px;
+	margin-top: 15px;
+}
+
+.updateCont textarea{
+	width: 100%;
+	height: 140px;
+	
+	margin-top: 10px;
+	
+	border-color: #ddd;
+	border-radius: 5px;
+	
+	resize: none;
+	
+}
+
+.deleteImg{
+	width: 200px;
+	height: 200px;
+}
+
 #uploadBox img{
 	width: 200px;
 	height:200px;
-}
+}	
+
 </style>
 </head>
 <body>
-<header th:include="/nav/headerNav"></header>
-	<h1>수정폼</h1>
-	<form enctype="multipart/form-data" action="/board/update.do" method="post">
-		<input type="hidden" name="userNo" th:value="${board.userNo}">
-		<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-		<div>
-			<textarea name="contents" th:text="${board.contents}"></textarea>
+	<header th:include="/nav/headerNav"></header>
+	<main class="d-flex w-100 h-100">
+		<div class="sideNav" th:include="/nav/asideNav"></div>
+		<div class="container d-flex justify-content-center">
+		 	<div class="updateForm">
+		 		<h1>수정폼</h1>
+			<form enctype="multipart/form-data" action="/board/update.do" method="post">
+				<input type="hidden" name="userNo" th:value="${board.userNo}">
+				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+<!-- 				<div>
+					<select name="category" th:value="${board.category}">
+						<option th:value="food">food</option>
+						<option th:value="sport">sport</option>
+						<option th:value="sights">sights</option>
+						<option th:value="etc" selected>etc</option>
+					</select>
+				</div> -->
+				
+				<div class="d-flex mt-3">
+					<div class="input-group mb-3 me-3">
+						 <label class="input-group-text" for="selCategory">Choose</label>
+						 <select class="form-select" id="selCategory" name="category" th:value="${board.category}">
+							   <option value="food">Food</option>
+							   <option value="sport">Sport</option>
+							   <option value="sights">Sights</option>
+							   <option value="etc" selected>etc</option>
+						 </select>
+					</div>
+					
+					<div class="input-group mb-3 ms-3">
+						  <span class="input-group-text" id="basic-addon1">
+						  		<i class="bi bi-geo-alt-fill"></i>
+						  </span>
+						  <input  name="mapConfirm" type="number" value="0" class="form-control" placeholder="지도">
+					</div>
+				</div>
+				
+				<div th:each="img : ${board.boardImgList}" class="mb-3">
+					<input class="form-check-input" type="checkbox" name="boardImgNo" th:value="${img.boardImgNo}">
+					<img class="deleteImg" alt="삭제 할 이미지" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+				</div>			
+				
+				<div class="mb-3" id="uploadBox">
+				  <input name="img" class="form-control" type="file" id="inputImg" multiple
+				  onchange="setThumbnail(event)">
+				  <div id="imgContainer"></div>
+				  <span id="fileNm"></span>
+				</div>
+				
+
+				<div class="updateCont">
+					<textarea name="contents" th:text="${board.contents}"></textarea>
+				</div>
+				
+				<div class="d-flex justify-content-end">
+					<button class="rounded-pill btn btn-outline-primary me-3">수정</button>
+					<button class="rounded-pill btn btn-outline-danger" type="reset">리셋</button>
+				</div>
+
+			</form>
+		 	</div>
 		</div>
-		<div>
-			<select name="category" th:value="${board.category}">
-				<option th:value="food">food</option>
-				<option th:value="sport">sport</option>
-				<option th:value="sights">sights</option>
-				<option th:value="etc" selected>etc</option>
-			</select>
-		</div>
-		
-		<div class="mb-3" id="uploadBox" style="border:1px solid black; width:800px; height:300px; padding:3px">
-		  <input name="img" class="form-control" type="file" id="inputImg" multiple
-		  onchange="setThumbnail(event)">
-		  <div id="imgContainer"></div>
-		  <span id="fileNm"></span>
-		</div>
-		
-		<div th:each="img : ${board.boardImgList}" class="mt-3">
-			<input type="checkbox" name="boardImgNo" th:value="${img.boardImgNo}">
-			<img style="width: 200px; height: 200px;" alt="삭제 할 이미지" th:src="@{/img/board/{file}(file=${img.imgPath})}">
-		</div>
-		<div>
-			<input name="mapConfirm" type="number" value="0">맵 설정 나중에 추가
-		</div>
-		<button class="btn btn-outline-primary">수정</button>
-		<button class="btn btn-outline-danger" type="reset">리셋</button>
-	</form>
+	</main>
+
 </body>
 </html>

@@ -4,26 +4,34 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
 .board{
-	display:flex;
-	justify-content: center;
-	flex-direction:row;
-	margin:20px auto;
+	border: 2px solid #ddd;
+	border-radius: 10px;
+	
+	padding: 10px;
 }
-.mainBoardImg{
-	width: 800px;
-	height: 300px;
-	border:1px solid;
+
+.mainBoard{
+	width: 400px;
 }
+
+.boardHeader{
+	margin-left:250px;
+}
+
 .mainBoardContent{
-	width:800px;
-	height:100px;
-	border:1px solid;
+	background-color: #eee;
 }
+
+
+.mainBoard img{
+	width: 400px;
+	height: 400px;
+}
+
 .mainBoardReply{
-	width:250px;
-	height:400px;
-	border:1px solid;
+	width: 320px;
 }
 
 .modalbutton button{
@@ -32,32 +40,61 @@ width:250px;
 </style>
 </head>
 <body>
-		<div class="board"
-		th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'"
-		th:each="board:${boardList}">
-			<div>
-				<div class="mainBoardImg row row-cols-2">
-					<th:block th:each="img:${board.boardImgList}" >
-						<img class="col" style="width: 100px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}">
-					</th:block>
+
+		<div class="board mx-3 my-5 align-item-center" 
+			data-bs-toggle="modal" data-bs-target="#insertModal"
+			th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'"
+			th:each="board:${boardList}">
+			<div class="boardHeader my-3">
+				<h1>누구누구누구</h1>
+			</div>		
+			<div class="boardBody d-flex justify-content-center">
+				<div>	
+					<div class="mainBoard me-3">
+		<!-- 					<th:block th:each="img:${board.boardImgList}" >
+								<img class="col" style="width: 400px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}"> -->
+						<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+							<div class="carousel-inner">
+						   		<th:block th:each="img:${board.boardImgList}" >
+								    <div class="carousel-item active">
+								      	<img th:src="@{/img/board/{file}(file=${img.imgPath})}" class="d-block w-100">
+								    </div>
+						      	</th:block>
+							</div>
+						</div>
+		<!-- 					</th:block> -->
+						<div class="mainBoardContent d-flex flex-column">
+							<div class="flex-column mx-3">
+								<div class="d-flex justify-content-between mt-2 mb-4">
+									<a href="#" class="link-primary">#해시태그</a>
+									<i class="bi bi-hand-thumbs-up"></i>
+								</div>
+								<div class="my-5">
+									<span th:text="${board.contents}"></span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="mainBoardContent row">
-					<span th:text="${board.contents}"></span>
+				<div class="mainBoardReply">
+					댓글 넣는 부분
 				</div>
 			</div>
-			<div class="mainBoardReply"></div>
 		</div>
 		
 <!-- 		<a class="btn btn-outline-success" th:href="@{/board/insert.do}">글쓰기</a> -->
 		<div class="d-flex justify-content-end">
 			<button type="button"
-			class="btn btn-outline-primary m-5 boardInBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			class="btn btn-outline-primary m-5 boardInBtn" data-bs-toggle="modal" data-bs-target="#insertModal">
 			  글쓰기
 			</button>
 		</div>
 		
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		
+		
+		
+		<!-- insertModal -->
+		<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered modal-xl">
 		    <div class="modal-content">
   		        <form  enctype="multipart/form-data" action="/board/insert.do" method="POST">
@@ -116,10 +153,10 @@ width:250px;
 				<button class="btn btn-outline-danger me-4" type="reset">초기화</button>
 		        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
 		      </div>
-		      
 		      </form>
 		    </div>
 		  </div>
-		</div>
+		</div>	
+		
 </body>
 </html>

@@ -5,16 +5,14 @@
   <title>홈</title>
 </head>
 <style>
-div {
-border : 1px solid green;
-}
+
 </style>
   
 	<body>
 		<header th:include="/nav/headerNav"></header>
 		<main class="d-flex w-100 h-100">
 			<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
-			<div class="container justify-content-center bg-light ">
+			<div class="container justify-content-center">
 			 	<section class="mt-5" th:include="/board/list"></section>
 			</div>
 		</main>

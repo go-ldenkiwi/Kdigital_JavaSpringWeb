@@ -1,17 +1,24 @@
 package com.joongbu.WebSNS.controller;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.joongbu.WebSNS.dto.BoardDto;
 import com.joongbu.WebSNS.dto.BoardImgDto;
 import com.joongbu.WebSNS.mapper.BoardImgMapper;
 import com.joongbu.WebSNS.mapper.BoardMapper;
+import com.joongbu.WebSNS.service.BoardService;
 
 @Controller
 public class HomeController {
@@ -19,6 +26,12 @@ public class HomeController {
 	BoardMapper boardMapper;	
 	@Autowired
 	BoardImgMapper imgMapper;
+	
+	@Autowired
+	BoardService boardService;
+	
+	@Value("${spring.servlet.multipart.location}") // vlaue : 설정 가져오는 어노테이션
+	String imgPath;
 
 	@GetMapping ("/")
 	public String index(Model model) {
@@ -48,7 +61,7 @@ public class HomeController {
 			model.addAttribute("board", board);
 			return "/board/detail";
 		}else {
-			return "redirect:/board/list.do";
+			return "index";
 		}
 	}
 }
