@@ -28,7 +28,7 @@
 		</collection>
 	</resultMap>
 	<select id="list" resultMap="BoardMap">
-		SELECT * FROM MAIN_BOARD
+		SELECT * FROM MAIN_BOARD ORDER BY boardNo DESC
 	</select>
 	<select id="detail" resultMap="BoardMap">
 		SELECT * ,
@@ -52,4 +52,9 @@
 	<delete id="delete">
 		DELETE FROM MAIN_BOARD WHERE boardNo=#{boardNo}
 	</delete>
+	
+	<select id="findByCategory" resultMap="BoardMap">
+		SELECT * FROM MAIN_BOARD WHERE category=#{category} ORDER BY boardNo DESC
+	</select>
+	
 </mapper>
