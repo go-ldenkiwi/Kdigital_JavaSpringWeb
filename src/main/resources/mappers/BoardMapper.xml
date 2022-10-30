@@ -57,4 +57,10 @@
 		SELECT * FROM MAIN_BOARD WHERE category=#{category} ORDER BY boardNo DESC
 	</select>
 	
+	<select id="findByHasgTag" resultMap="BoardMap">
+		SELECT * FROM MAIN_BOARD WHERE boardNo=
+			(SELECT boardNo FROM TAG_POST_MAPPING where tagNo=
+				(SELECT tagNo FROM TAG WHERE tagContent=#{tagContent}))
+	</select>
+	
 </mapper>

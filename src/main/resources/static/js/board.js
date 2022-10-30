@@ -174,3 +174,15 @@ async function selectCatergory(){
 //	}
 //	let resp=await fetch(url, {body:"categorys":categorys});
 //}
+
+// tag로 검색
+async function findByHasgTag(){
+	const tag=document.getElementById("hashTag").value;
+	let url="/board/findByHasgTag.do?tagContent="+tag;
+	let resp=await fetch(url);
+	if(resp.status==200){
+		let text= await resp.text();
+		let mainBoardContainer=document.getElementById("mainBoardContainer");
+		mainBoardContainer.innerHTML=text;
+	}
+}
