@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/profileupdate.css">
+</head>
+<body>
+<header th:include="/nav/headerNav"></header>
+ <main class="main">
+        <section class="setting-container">
+            <form class="setting__content" action="/user/profileupdate.do"  method="post" enctype="multipart/form-data">
+            	 <input type="hidden" name="userId" th:value="${user.userId}"> 
+            	 <div class="profile-left">
+	                <div class="profile-img-wrap" >
+	                    <img alt="" id="preview"  th:src="@{/img/user/{file}(file=${user.imgPath})}"
+	                    >
+		            </div>
+		            <div class="profile-left-button">
+		            <label class="input-file-button" for="input-file">
+					  업로드
+					</label>
+					<input class="input-file-button-input"  name="img" type="file" id="input-file"  onchange="changeImg(this)" />
+					</div>
+		         </div>
+		         
+                <div class="content-item">
+                    <div class="item__title">이름</div>
+                    <div class="item__input">
+                        <input type="text" name="username"  th:value="${user.username}" disabled />
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title">아이디</div>
+                    <div class="item__input">
+                     <input type="text" name="userId" th:value="${user.userId}" disabled/>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title">닉네임</div>
+                    <div class="item__input">
+                     <input type="text" name="nickname" th:value="${user.nickname}" />
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title">소개</div>
+                    <div class="item__input">
+                        <textarea name="content" id="" rows="3" th:text="${user.content}"></textarea>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title">이메일</div>
+                    <div class="item__input">
+                        <input type="text" name="email"  th:value="${user.email}"/>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title"></div>
+                    <div class="item__input">
+                        <button>제출</button>
+                    </div>
+                </div>
+                <!--
+                 <div class="content-item">
+                    <div class="item__title">현재 비밀번호</div>
+                    <div class="item__input">
+                        <input type="text" name="gender" />
+                   </div>
+                </div>
+                 <div class="content-item">
+                    <div class="item__title">비밀번호 확인</div>
+                    <div class="item__input">
+                        <input type="text" name="gender" />
+                   </div>
+                </div>
+                <div class="content-item">
+                    <div class="item__title">변경할 비밀번호</div>
+                    <div class="item__input">
+                        <input type="text" name="gender" />
+                   </div>
+                </div>
+                
+                 <div class="content-item">
+                    <div class="item__title"></div>
+                    <div class="item__input">
+                        <button>제출</button>
+                    </div>
+                </div>
+                -->
+            </form>
+        </section>
+    </main>
+</body>
+</html>
