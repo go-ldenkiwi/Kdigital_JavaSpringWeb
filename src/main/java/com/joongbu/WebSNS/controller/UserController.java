@@ -125,7 +125,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+			
 		if(insert > 0 )
 		{
 			msg = "회원가입 성공";
