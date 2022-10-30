@@ -4,10 +4,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
-<style type="text/css">
-#uploadBox img{
-	width: 200px;
-	heigh:200px;
+<style>
+div {
+border : 1px solid green;
+}
+#fileNm {
+border: 1px solid red;
+}
+
+.modalbutton button{
+width:250px;
 }
 </style>
 </head>
@@ -38,8 +44,6 @@
 		  <div id="imgContainer"></div>
 		  <span id="fileNm"></span>
 		</div>
-		<button class="btn btn-outline-primary">글쓰기</button>
-		<button class="btn btn-outline-danger" type="reset">초기화</button>
-	</form>
+
 </body>
 </html>

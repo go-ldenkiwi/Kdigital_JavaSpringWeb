@@ -110,6 +110,7 @@ public class BoardReplyController {
 			@SessionAttribute(required = false) UserDto loginUser
 			) {
 		int update=0;  
+
 		CheckStatus checkStatus=new CheckStatus();
 		if(loginUser==null) {
 			checkStatus.setStatus(-1);

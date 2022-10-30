@@ -16,20 +16,9 @@ border : 1px solid green;
 			<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
 			
 			<div class="container justify-content-center bg-light ">
-			 	<div class="mt-5">
-          
-	           		<span>test
-		        		<a href="/board/list.do">boardListMaintest</a>
-		        	</span>
-		        	
-		 			<ol>
-		 				<li>
-		 					<a href="/reply/list.do">아 댓글 제발</a>
-		 				</li>
-		 			</ol>
-		 			
-		 		</div>
+			 	<section class="mt-5" th:include="/board/list"></section>
 			</div>
+      
 		</main>
 	</body>
 
