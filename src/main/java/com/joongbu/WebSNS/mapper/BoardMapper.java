@@ -11,6 +11,7 @@ public interface BoardMapper {
 	BoardDto detail(int boardNo);
 	List<BoardDto> list();
 	List<BoardDto> findByCategory(String category);
+	List<BoardDto> findByHasgTag(String tagContent);
 	int insert(BoardDto board);
 	int update(BoardDto board);
 	int delete(int boardNo);

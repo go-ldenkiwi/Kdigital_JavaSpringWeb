@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -106,8 +108,14 @@ public class BoardController {
 			) {
 		int insert=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
-		String [] tags=board.getContents().split("/");
-		
+		Pattern tags = Pattern.compile("#(\\S+)");
+        Matcher mat = tags.matcher(board.getContents());
+        List<String> tagList = new ArrayList<>();
+        
+        while(mat.find()) {
+            tagList.add((mat.group(1)));
+        }
+        
 		try {
 			for(MultipartFile img : imgList) {
 				if(!img.isEmpty()) {
@@ -121,6 +129,7 @@ public class BoardController {
 				}
 			}
 			insert=boardService.registBoardAndBoardImgs(board, imgPaths);
+			boardService.saveTag(tagList, board.getBoardNo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -319,5 +328,20 @@ public class BoardController {
 		}
 		model.addAttribute("boardList",findCategoryList);
 		return "/board/findCategoryList";
+	}
+	
+	@GetMapping("/findByHasgTag.do")
+	public String findByHasgTag(
+			@RequestParam String tagContent,
+			Model model
+			) {
+		List<BoardDto> findByHasgTag=null;
+		try {
+			findByHasgTag=boardMapper.findByHasgTag(tagContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("boardList", findByHasgTag);
+		return "/board/findByHasgTag";
 	}
 }

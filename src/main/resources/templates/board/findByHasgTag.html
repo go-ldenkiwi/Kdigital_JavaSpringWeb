@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<main class="container" id="mainBoardContainer">
+	<th:block th:each="board:${boardList}">
+	<span th:text="${board.user.nickname}"></span>
+	<div class="board"
+	th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
+		<div>
+			<div class="mainBoardImg row row-cols-2">
+				<th:block th:each="img:${board.boardImgList}" >
+					<img class="col" style="width: 100px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+				</th:block>
+			</div>
+			<div class="mainBoardContent row">
+				<span th:text="${board.contents}"></span>
+			</div>
+		</div>
+		<div class="mainBoardReply"></div>
+	</div>
+	</th:block>
+</main>
+</html>
