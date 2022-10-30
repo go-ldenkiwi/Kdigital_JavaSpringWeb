@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/userProfileUpdate.js" defer="defer"></script>
 <link rel="stylesheet" href="/css/profileupdate.css">
 </head>
 <body>
@@ -10,17 +11,19 @@
  <main class="main">
         <section class="setting-container">
             <form class="setting__content" action="/user/profileupdate.do"  method="post" enctype="multipart/form-data">
+            	<input type="hidden" name="imgPath" th:value="${user.imgPath}"> 
             	 <input type="hidden" name="userId" th:value="${user.userId}"> 
             	 <div class="profile-left">
 	                <div class="profile-img-wrap" >
-	                    <img alt="" id="preview"  th:src="@{/img/user/{file}(file=${user.imgPath})}"
-	                    >
+	                    <img alt="" id="preview"  th:src="@{/img/user/{file}(file=${user.imgPath})}">
 		            </div>
 		            <div class="profile-left-button">
 		            <label class="input-file-button" for="input-file">
 					  업로드
 					</label>
-					<input class="input-file-button-input"  name="img" type="file" id="input-file"  onchange="changeImg(this)" />
+					<th:block th:text="${user.imgPath}"></th:block>
+					<input class="input-file-button-input"  
+					name="img" type="file" id="input-file"  th:value="${user.imgPath}"  onchange="changeImg(this)" />
 					</div>
 		         </div>
 		         

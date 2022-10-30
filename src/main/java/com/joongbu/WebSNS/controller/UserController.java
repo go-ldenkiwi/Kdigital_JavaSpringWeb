@@ -295,7 +295,7 @@ public class UserController {
     	String imgPaths = "";
     	System.out.println("중복닉네임체크 성공");
 		try {
-				if(img!=null && !img.isEmpty()) {
+				if(img !=null && !img.isEmpty()) {
 					String contentTypes[] = img.getContentType().split("/");
 					if(contentTypes[0].equals("image")) {
 						String fileName="user_"+System.currentTimeMillis()+"_"+((int)(Math.random()*10000))+"."+contentTypes[1];
@@ -308,10 +308,10 @@ public class UserController {
 						user.setImgPath(fileName);
 					}
 				}
-				update = usermapper.update(user);
 			}catch(Exception e) {
 				e.printStackTrace();
-			}
+			}	
+			update = usermapper.update(user);
 		
 			if (update >0) {
 				System.out.println("프로필 수정 성공");

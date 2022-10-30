@@ -14,7 +14,7 @@
         <div class="container">
 	            <div class="profile-left">
 	                <div class="profile-img-wrap" >
-	                    <img alt="" id="preview"
+	                    <img alt=" "  id="preview"
 	                    th:src="@{/img/user/{file}(file=${user.imgPath})}">
 		            </div>
 		         </div>
@@ -24,7 +24,9 @@
                     <h2 th:text="${user.userId}"></h2>
                     <div>
                     <button class="cta">구독하기</button>
-                    <a class="atag"  th:href="@{/user/profileupdate.do(userId=${user.userId})}"><span>설정⚙</span></a>
+	                    <th:block th:if="${session.loginUser.userId == user.userId}">
+	                    <a class="atag"  th:href="@{/user/profileupdate.do(userId=${user.userId})}"><span>설정⚙</span></a>
+	                    </th:block>
                		</div>
                 </div>
                 <div class="follow">

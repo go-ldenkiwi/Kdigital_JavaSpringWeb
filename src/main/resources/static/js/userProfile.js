@@ -1,8 +1,3 @@
-document.querySelector("#subscribeBtn").onclick = (e) => {
-  e.preventDefault();
-  document.querySelector(".modal-follow").style.display = "flex";
-};
-
 function closeFollow() {
 	document.querySelector(".modal-follow").style.display = "none";
 }
@@ -11,3 +6,9 @@ document.querySelector(".modal-follow").addEventListener("click", (e) => {
 		document.querySelector(".modal-follow").style.display = "none";
 	}
 });
+
+document.querySelector("#subscribeBtn").onclick = (e) => {
+  e.preventDefault();
+  document.querySelector(".modal-follow").style.display = "flex";
+};
+
