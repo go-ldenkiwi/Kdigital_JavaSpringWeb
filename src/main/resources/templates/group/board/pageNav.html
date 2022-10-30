@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+	
+	<ul class="pagination justify-content-center">
+		    <li class="page-item" th:classappend="${(paging.isFirstPage)?'disabled':''}">
+		      <a class="page-link" th:href="@{''(page=1)}"><<<</a>
+		    </li>
+		    <li class="page-item" th:classappend="${(!paging.hasPreviousPage)?'disabled':''}">
+		      <a class="page-link" th:href="@{''(page=${paging.PrePage})}"><</a>
+		    </li>
+		    <li class="page-item" th:each="page:${paging.navigatepageNums}">
+		   	 	<a class="page-link" 
+		   	 	th:href="@{''(page=${page})}" 
+		   	 	th:text="${page}"
+		   	 	th:classappend="${(paging.pageNum==page)?'active':''}"></a>
+		    </li>
+		    <li class="page-item" th:classappend="${(!paging.hasNextPage)?'disabled':''}">
+		      <a class="page-link" th:href="@{''(page=${paging.nextPage})}">></a>
+		    </li>
+		    <li class="page-item" th:classappend="${(paging.isLastPage)?'disabled':''}">
+		      <a class="page-link" th:href="@{''(page=${paging.pages})}">>>></a>
+		    </li>
+		  </ul>
+</html>

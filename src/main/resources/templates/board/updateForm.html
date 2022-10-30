@@ -110,7 +110,36 @@
 			</form>
 		 	</div>
 		</div>
+<<<<<<< HEAD
 	</main>
 
+=======
+		<div>
+			<select class="form-select" name="category" th:value="${board.category}">
+				<option th:value="food">food</option>
+				<option th:value="sport">sport</option>
+				<option th:value="sights">sights</option>
+				<option th:value="etc" selected>etc</option>
+			</select>
+		</div>
+		
+		<div class="mb-3" id="uploadBox" style="border:1px solid black; width:800px; height:300px; padding:3px">
+		  <input name="img" class="form-control" type="file" id="inputImg" multiple
+		  onchange="setThumbnail(event)">
+		  <div id="imgContainer"></div>
+		  <span id="fileNm"></span>
+		</div>
+		
+		<div th:each="img : ${board.boardImgList}" class="mt-3">
+			<input type="checkbox" name="boardImgNo" th:value="${img.boardImgNo}">
+			<img style="width: 200px; height: 200px;" alt="삭제 할 이미지" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+		</div>
+		<div>
+			<input name="mapConfirm" type="number" value="0">맵 설정 나중에 추가
+		</div>
+		<button class="btn btn-outline-primary">수정</button>
+		<button class="btn btn-outline-danger" type="reset">리셋</button>
+	</form>
+>>>>>>> e2cc6917b520d5c8038d91938bf90c9b82c763f0
 </body>
 </html>

@@ -1,16 +1,17 @@
 package com.joongbu.WebSNS.mapper;
 
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.github.pagehelper.Page;
 import com.joongbu.WebSNS.dto.GroupBoardDto;
 
+@Mapper
 public interface GroupBoardMapper {
-	List<GroupBoardDto> list(int startRow, int rows);
-	int listCount();
+	Page<GroupBoardDto> list();
 	
-	GroupBoardDto detail(int BoardNo);
+	GroupBoardDto detail(int boardNo);
 	int insert(GroupBoardDto board);
 	int update(GroupBoardDto board);
-	int viewUpdate(int groupBoardNo);
-	int delete(int groupBoardNo);
+	int viewUpdate(int boardNo);
+	int delete(int boardNo);
 }

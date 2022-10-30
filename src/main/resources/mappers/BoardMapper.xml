@@ -11,28 +11,29 @@
 		<result column="contents" property="contents"/>
 		<result column="mapConfirm" property="mapConfirm"/>
 		<result column="boardReport" property="boardReport"/>
-		<collection property="boardImgList" ofType="BoardImgDto">
-			<id column="boardImgNo" property="boardImgNo"/>
-			<result column="i_boardNo" property="boardNo"/>
-			<result column="i_imgPath" property="imgPath"/>
+		<result column="likes" property="likes"/>
+		<association property="user" 
+		select="com.joongbu.WebSNS.mapper.UserMapper.detailFindByUserNo"
+		column="userNo" fetchType="lazy">
+		</association>
+		
+		<collection property="boardImgList" 
+		select="com.joongbu.WebSNS.mapper.BoardImgMapper.list"
+		column="boardNo" fetchType="lazy">
 		</collection>
-		<collection property="boardReplyList" ofType="BoardReplyDto">
-			<id column="replyNo" property="replyNo"/>
-			<result column="r_boardNo" property="boardNo"/>
-			<result column="r_contents" property="contents"/>
-			<result column="r_postTime" property="postTime"/>
-			<result column="r_userNo" property="userNo"/>
+		
+		<collection property="boardReplyList"
+		select="com.joongbu.WebSNS.mapper.BoardReplyMapper.list"
+		column="boardNo" fetchType="lazy">
 		</collection>
 	</resultMap>
-	<select id="list" resultType="BoardDto">
-		SELECT * FROM MAIN_BOARD
+	<select id="list" resultMap="BoardMap">
+		SELECT * FROM MAIN_BOARD ORDER BY boardNo DESC
 	</select>
 	<select id="detail" resultMap="BoardMap">
-		SELECT b.*, i.boardImgNo, 
-		i.imgPath i_imgPath, i.boardNo i_boardNo, 
-		r.replyNo, r.boardNo r_boardNo, r.contents r_contents, r.postTime r_postTime, r.userNo r_userNo
-		FROM MAIN_BOARD b LEFT JOIN MAIN_BOARD_IMG i USING(boardNo)
-		LEFT JOIN MAIN_BOARD_REPLY r USING(boardNo) 
+		SELECT * ,
+		(SELECT COUNT(*) FROM MAIN_BOARD_PREFER f WHERE f.boardNo=b.boardNo AND prefer=1) likes
+		FROM MAIN_BOARD b
 		WHERE boardNo=#{boardNo}
 	</select>
 	<!--  useGeneratedKeys="true" keyProperty="boardNo" : 파라미터로 넘어온 boardDto에 boardNo가 넘어온다. -->
@@ -51,4 +52,9 @@
 	<delete id="delete">
 		DELETE FROM MAIN_BOARD WHERE boardNo=#{boardNo}
 	</delete>
+	
+	<select id="findByCategory" resultMap="BoardMap">
+		SELECT * FROM MAIN_BOARD WHERE category=#{category} ORDER BY boardNo DESC
+	</select>
+	
 </mapper>

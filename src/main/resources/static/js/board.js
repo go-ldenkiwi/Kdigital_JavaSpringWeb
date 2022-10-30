@@ -20,32 +20,36 @@ function setThumbnail(event) {
 
 
 // boardReply
-const replyInserForm=document.forms["replyInsertForm"]
-const replyList=document.getElementById("replyList")
+const replyInsertForm=document.forms["replyInsertForm"];
+const replyList=document.getElementById("replyList");
 
-if(replyInserForm!=null){
-	replyInserForm.addEventListener("submit", async(e)=>{
-		e.preventDefault();
-		let boardNo=replyInserForm.boardNo.value;
-		let url=replyInserForm.action;
-		let data=new FormData(replyInserForm);
-		
-		let resp=await fetch(url, {body:data, method:"post"});
-		if(resp.status==200){
-			let json=await resp.json();
-			let msg="";
-			switch(json.status){
-				case 0: msg="등록 실패"; break;
-				case 1: 
-					msg="등록 성공"; 
-					readReplyList(boardNo);
-					break;
-				case -1: msg="로그인 하세요"; break;
-			}
-			alert(msg);
-		}
-	});
+if(replyInsertForm!=null){
+	replyInsertForm.addEventListener("submit",insertReply);
 }
+
+async function insertReply(e){
+	e.preventDefault();
+	const replyInsertForm=e.target;
+	let boardNo=replyInsertForm.boardNo.value;
+	let url=replyInsertForm.action;
+	let data=new FormData(replyInsertForm); 
+	
+	let resp=await fetch(url,{body:data,method:"post"});
+	if(resp.status==200){//로그인이 안되어 있을때
+		let json=await resp.json();
+		let msg="";
+		switch(json.status){
+			case 0: msg="등록실패(db에러)"; break;
+			case 1: 
+				msg="등록성공"; 
+				readReplyList(boardNo);
+				break;
+			case -1: msg="로그인을 하세요."; break;
+		}
+		alert(msg);
+	}
+}
+
 
 async function readReplyList(boardNo){
 	let url="/reply/list.do?boardNo="+boardNo;
@@ -65,6 +69,12 @@ async function readReplyUpdateForm(replyNo){
 	if(resp.status==200){
 		let textHtml=await resp.text();
 		replyLiNode.innerHTML=textHtml;
+	} else if(resp.status==400){
+		alert("로그인 해주세여");
+	} else if(resp.status==401){
+		alert("글쓴이만 수정 가능");
+	} else if(resp.status==500){
+		alert("수정 폼 불러오기 실패")
 	}
 }
 
@@ -107,3 +117,60 @@ async function updateReply(formNode){
 	}
 	alert(msg);
 }
+
+// 좋아요
+const preferContainer=document.getElementById("preferContainer");
+
+async function boardPreferModify(e, prefer) {
+	let boardNo=e.target.value
+	let url="/board/prefer.do?boardNo="+boardNo+"&prefer="+prefer;
+	let resp=await fetch(url);
+	if(resp.status==200){
+		let checkStatus=await resp.json();
+		if(checkStatus.status>0){
+			boardPreferChange(boardNo);
+		}
+	}
+}
+
+async function boardPreferChange(boardNo){
+	let url="/board/preferDetail.do?boardNo="+boardNo;
+	let resp=await fetch(url);
+	if(resp.status==200){
+		let text=await resp.text();
+		preferContainer.innerHTML=text;
+	}
+}
+
+// 카테고리 선택
+// 한개의 체크박스만 선택
+function clickCheck(target) {
+    document.querySelectorAll(`input[type=checkbox]`)
+        .forEach(el => el.checked = false);
+
+    target.checked = true;
+}
+
+async function selectCatergory(){
+	const checks = "input[type=checkbox][name=category]:checked";
+	const category=document.querySelector(checks).value;
+	let url="/board/selectCatergory.do?category="+category;
+	let resp=await fetch(url);
+	if(resp.status==200){
+		let text= await resp.text();
+		let mainBoardContainer=document.getElementById("mainBoardContainer");
+		mainBoardContainer.innerHTML=text;
+	}
+}
+
+// 다중 선택 에러남
+//async function selectCatergory(){
+//	let categorys=[]
+//	const checks = "input[type=checkbox][name=category]:checked";
+//	const category=document.querySelectorAll(checks);
+//	let url="/board/selectCatergory.do?";
+//	for(let i=0; i<category.length; i++){
+//		categorys.push(category[i].value);
+//	}
+//	let resp=await fetch(url, {body:"categorys":categorys});
+//}

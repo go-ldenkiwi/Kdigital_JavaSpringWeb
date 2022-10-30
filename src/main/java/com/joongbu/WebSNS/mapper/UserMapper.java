@@ -1,9 +1,6 @@
 package com.joongbu.WebSNS.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.joongbu.WebSNS.dto.UserDto;
 
@@ -12,5 +9,7 @@ public interface UserMapper {
 	UserDto detail(String userId);
 	int insert(UserDto user);
 	UserDto login(String userId,String pw);
-	UserDto findbyuserId(String username);
+	UserDto findbyuserId(String userId);
+	UserDto findbyusername(String username);
+	int update(UserDto user);
 }

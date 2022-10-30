@@ -1,7 +1,7 @@
 package com.joongbu.WebSNS.dto;
 
 import java.util.Date;
-
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,4 +27,11 @@ public class BoardReplyDto {
 	private Date postTime;
 	private int boardNo;
 	private int userNo;
+	private Integer fkReplyNo;
+	
+	// 글쓴 유저 정보
+	private UserDto user;
+	
+	// 대 댓글
+	private List<BoardReplyDto> replyList;
 }

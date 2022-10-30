@@ -1,8 +1,11 @@
 package com.joongbu.WebSNS.config.auth;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.joongbu.WebSNS.dto.UserDto;
 import com.joongbu.WebSNS.mapper.UserMapper;
@@ -20,12 +23,18 @@ public class PrincipalDetailsService implements UserDetailsService {
     // password 부분 처리는 알아서함
     // username이 DB에 있는지만 확인해서 리턴해주면 됨
     // 이거 안만들어주면  username 이 그냥 user로 들어감 강제로 넣어줘야댐
+	
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("PrincipalDetailsService : 진입");
-		UserDto user = userMapper.findbyuserId(userId);
+		System.out.println(username);
+		UserDto user = userMapper.findbyuserId(username);
 		
-		// session.setAttribute("loginUser", user);
+		System.out.println(user);
+		if(user == null)
+		{
+			return null;
+		}
 		return new PrincipalDetails(user);
 	}
 }
