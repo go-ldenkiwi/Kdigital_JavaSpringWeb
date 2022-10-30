@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.joongbu.WebSNS.dto.BoardDto;
 import com.joongbu.WebSNS.dto.BoardImgDto;
+import com.joongbu.WebSNS.dto.BoardTagDto;
+import com.joongbu.WebSNS.dto.BoardTagPostMappingDto;
 import com.joongbu.WebSNS.mapper.BoardImgMapper;
 import com.joongbu.WebSNS.mapper.BoardMapper;
+import com.joongbu.WebSNS.mapper.BoardTagMapper;
+import com.joongbu.WebSNS.mapper.BoardTagPostMapping;
 
 @Service
 public class BoardService {
@@ -17,6 +21,10 @@ public class BoardService {
 	BoardMapper boardMapper;
 	@Autowired
 	BoardImgMapper boardImgMapper;
+	@Autowired
+	BoardTagMapper tagMapper;
+	@Autowired
+	BoardTagPostMapping tagPostMapper;
 	
 	public int registBoardAndBoardImgs(BoardDto board, List<String> imgPaths) {
 		int insert=0;
@@ -55,5 +63,26 @@ public class BoardService {
 		BoardImgDto boardImg=null;
 		boardImg=boardImgMapper.detail(boardImgNo);
 		return boardImg;
+	}
+	
+	public Boolean saveTag(List<String> tagList, int boardNo) {
+		int result=1;
+		for(String tag:tagList) {
+			BoardTagDto findTagResult=tagMapper.findTagByContent(tag);
+			
+			if(findTagResult==null) {
+				BoardTagDto tagDto=new BoardTagDto();
+				tagDto.setTagContent(tag);
+				tagMapper.insert(tagDto);
+			}
+			
+			BoardTagPostMappingDto tagPostMapping=new BoardTagPostMappingDto();
+			BoardTagDto findTag=tagMapper.findTagByContent(tag);
+			tagPostMapping.setBoardNo(boardNo);
+			tagPostMapping.setContent(findTag.getTagContent());
+			tagPostMapping.setTagNo(findTag.getTagNo());
+			result=tagPostMapper.insertTagPost(tagPostMapping);
+		}
+		return result==1;
 	}
 }
