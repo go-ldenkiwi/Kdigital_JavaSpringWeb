@@ -48,7 +48,7 @@
 	    	</th:block>
 	    	<th:block th:unless="${session.loginUser==null}">
 	    		<li class="nav-item">
-			    	<a class="nav-link" th:href="@{/user/detail.do(userId=${session.loginUser.userId})}">
+			    	<a class="nav-link" th:href="@{/user/profile.do(userId=${session.loginUser.userId})}">
 			    		<th:block th:text="${session.loginUser.userId}"></th:block>
 			    		(<th:block th:text="${session.loginUser.nickname}"></th:block>)
 			    	</a>

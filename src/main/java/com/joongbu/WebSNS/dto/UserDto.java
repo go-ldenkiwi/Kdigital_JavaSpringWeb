@@ -15,6 +15,7 @@ package com.joongbu.WebSNS.dto;
 +-------------+--------------+------+-----+-------------------+-------------------+
  */
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,10 @@ public class UserDto {
 	private String pw;
 	private String username;
 	private String email;
-	private String information;
+	private String info;
+	private String imgPath;
+	private String content;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date signup;
 	
@@ -40,15 +44,16 @@ public class UserDto {
 
 	
 	@Builder
-	public UserDto(String userId, String nickname, String pw, String username, String email, String information,
+	public UserDto(String userId, String nickname, String pw, String username, String email, String info,String content,
 			Date signup) {
 		this.userId = userId;
 		this.nickname = nickname;
 		this.pw = pw;
 		this.username = username;
 		this.email = email;
-		this.information = information;
+		this.info = info;
 		this.signup = signup;
+		this.content = content;
 	}
 	
 }

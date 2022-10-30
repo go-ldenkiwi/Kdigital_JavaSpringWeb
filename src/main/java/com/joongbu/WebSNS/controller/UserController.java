@@ -1,13 +1,19 @@
 package com.joongbu.WebSNS.controller;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,11 +33,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.joongbu.WebSNS.config.auth.PrincipalDetails;
 import com.joongbu.WebSNS.config.oauth.JwtProperties;
+import com.joongbu.WebSNS.dto.BoardDto;
 import com.joongbu.WebSNS.dto.MailDto;
 import com.joongbu.WebSNS.dto.UserDto;
+import com.joongbu.WebSNS.mapper.BoardMapper;
 import com.joongbu.WebSNS.mapper.UserMapper;
 import com.joongbu.WebSNS.service.UserService;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -48,11 +57,17 @@ public class UserController {
 	
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Value("${spring.servlet.multipart.location}")
+	String imgPath;
+	
 	@Autowired
 	DataSource dataSource;
 	
 	@Autowired
 	UserMapper usermapper;
+	
+	@Autowired
+	BoardMapper boardmapper;
 	
 	@Autowired
 	UserService userService;
@@ -68,7 +83,23 @@ public class UserController {
 		CheckUser checkUser = new CheckUser();
 		UserDto user = null;
 		try {
-		 user = usermapper.detail(userId);
+		 user = usermapper.findbyuserId(userId);
+		 if(user != null) {
+			 checkUser.setCheck(1);
+			 checkUser.setUser(user);
+		 }
+		} catch (Exception e) {
+			e.printStackTrace();
+			 checkUser.setCheck(-1);
+		}
+		return checkUser;
+	}
+	
+	@GetMapping("/checknickname.do")
+	public @ResponseBody CheckUser checkNickname(@RequestParam(required=true) String nickname) {
+		CheckUser checkUser = new CheckUser();
+		UserDto user = null;
+		try {
 		 if(user != null) {
 			 checkUser.setCheck(1);
 			 checkUser.setUser(user);
@@ -219,7 +250,89 @@ public class UserController {
     	System.out.println(exception);
     	session.setAttribute("msg", exception);
     	return "redirect:/user/login.do";
+ }
+    
+    @GetMapping("/profile.do")
+    public String mypage(
+    		@SessionAttribute(required = false)UserDto loginUser,
+    		@RequestParam(required = true)String userId,
+    		Model model,
+			HttpServletResponse resp
+    		) {
+    	UserDto user = null;
+    	BoardDto board = null; // 게시물 처리
+    	user = usermapper.findbyuserId(userId);
+    	model.addAttribute("user", user);
+    	return "/user/profile";
+    }
+    
+    @GetMapping("/profileupdate.do")
+    public String profileupdate(
+			@SessionAttribute UserDto loginUser, 
+			@RequestParam(required = true)String userId,
+			Model model
+    		) { 
+    	UserDto user = null;
+    	user = usermapper.findbyuserId(userId);
+    	model.addAttribute("user", user);
+    	return "/user/profileupdate";
+    }
+    
+    @PostMapping("/profileupdate.do")
+    public String profileupdate(
+			UserDto user,
+			MultipartFile img,
+			@SessionAttribute(required=false) UserDto loginUser,
+			HttpSession session
+    		) {
+    	String nickname = user.getNickname();
+    	String userId = user.getUserId();
+    	String msg = "";
+    	UserDto userck = usermapper.findbynicknameNotuserId(nickname, userId);
+    	int update = 0;
+    	
+    	if(userck == null) {
+    	String imgPaths = "";
+    	System.out.println("중복닉네임체크 성공");
+		try {
+				if(img!=null && !img.isEmpty()) {
+					String contentTypes[] = img.getContentType().split("/");
+					if(contentTypes[0].equals("image")) {
+						String fileName="user_"+System.currentTimeMillis()+"_"+((int)(Math.random()*10000))+"."+contentTypes[1];
+						Path path=Paths.get(imgPath+"/user/"+fileName);
+						img.transferTo(path);
+						if(user.getImgPath()!=null) {
+							File imgFile=new File(imgPath+"/"+user.getImgPath());
+							System.out.println("이미지 파일 삭제:"+imgFile.delete());
+						}
+						user.setImgPath(fileName);
+					}
+				}
+				update = usermapper.update(user);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+			if (update >0) {
+				System.out.println("프로필 수정 성공");
+				msg = "프로필 수정 성공";
+				session.setAttribute("msg", msg);
+				System.out.println(user.getUserId());
+				return "redirect:/user/profile.do?userId="+user.getUserId();
+			}else {
+				System.out.println("프로필 수정 실패");
+				msg = "프로필 수정 실패";
+				session.setAttribute("msg", msg);
+				return "redirect:/user/profile.do?userId="+user.getUserId();
+			}
+        }
+    	else {
+    		System.out.println("중복닉네임 실패");
+			msg = "중복되는 닉네임이 있습니다. 다시 시도해주세요.";
+			session.setAttribute("msg", msg);
+			return "redirect:/user/profileupdate.do?userId="+user.getUserId();
     	}
+    }
 
 	
 	
