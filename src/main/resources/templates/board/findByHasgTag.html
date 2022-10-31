@@ -1,22 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<main class="container" id="mainBoardContainer">
-	<th:block th:each="board:${boardList}">
-	<span th:text="${board.user.nickname}"></span>
-	<div class="board"
-	th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
+	<main class="container d-flex justify-content-center" id="mainBoardContainer">
 		<div>
-			<div class="mainBoardImg row row-cols-2">
-				<th:block th:each="img:${board.boardImgList}" >
-					<img class="col" style="width: 100px; height: 100px;" th:src="@{/img/board/{file}(file=${img.imgPath})}">
-				</th:block>
+			<th:block th:each="board:${boardList}">
+			<div class="board d-flex justify-content-center "
+			th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
+				<div>
+					<div class="nickName" th:text="${board.user.nickname}"></div>
+					<div class="d-flex">
+						<div class="mainBoard me-2">
+							<div class="mainBoardImg">
+									<!-- <img class="col" style="width: 400px;" th:src="@{/img/board/{file}(file=${img.imgPath})}"> -->
+								<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+								  <div class="carousel-inner">
+								<th:block th:each="img:${board.boardImgList}" >
+								    <div class="carousel-item active" >
+								      <img th:src="@{/img/board/{file}(file=${img.imgPath})}" style="width: 400px; height: 250px;">
+								    </div>
+								</th:block>
+								  </div>
+								</div>
+							</div>
+							<div class="mainBoardContent">
+								<span th:text="${board.contents}"></span>
+							</div>
+						</div>
+						<div class="mainBoardReply ms-2">
+							<section id="replyList" class="collapse show">
+								<th:block th:include="/reply/mlist" th:with="replyList=${board.boardReplyList}, boardNo=${board.boardNo}, user=${board.user}"></th:block>
+							</section>
+					<div class="mt-2">
+						<th:block th:if="${session.loginUser!=null}">
+							<form name="replyInsertForm" action="/reply/insert.do" method="post">
+								<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+								<input type="hidden" name="userNo" th:value="${session.loginUser.userNo}">
+								</form>
+							</th:block>
+						</div>
+
+						</div>
+					</div>			
+				</div>
 			</div>
-			<div class="mainBoardContent row">
-				<span th:text="${board.contents}"></span>
-			</div>
+			</th:block>
 		</div>
-		<div class="mainBoardReply"></div>
-	</div>
-	</th:block>
-</main>
+	</main>
 </html>

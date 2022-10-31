@@ -58,7 +58,7 @@
 	</select>
 	
 	<select id="findByHasgTag" resultMap="BoardMap">
-		SELECT * FROM MAIN_BOARD WHERE boardNo=
+		SELECT * FROM MAIN_BOARD WHERE boardNo IN
 			(SELECT boardNo FROM TAG_POST_MAPPING where tagNo=
 				(SELECT tagNo FROM TAG WHERE tagContent=#{tagContent}))
 	</select>

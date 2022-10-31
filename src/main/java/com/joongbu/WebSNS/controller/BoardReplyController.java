@@ -142,4 +142,20 @@ public class BoardReplyController {
 		model.addAttribute("replyList", replyList);
 		return "/reply/list";
 	}
+	
+	
+	@GetMapping("/mlist.do")
+	public String mlist(
+			@RequestParam(required = true) int boardNo,
+			Model model
+			) {
+		List<BoardReplyDto> replyList=null;
+		try {
+			replyList=replyMapper.list(boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("replyList", replyList);
+		return "/reply/mlist";
+	}
 }

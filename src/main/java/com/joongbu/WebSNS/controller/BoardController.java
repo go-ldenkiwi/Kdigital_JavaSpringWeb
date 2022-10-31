@@ -134,7 +134,7 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		if(insert>0) {
-			return "redirect:/board/list.do";
+			return "redirect:/";
 		}else {			
 			return "redirect:/board/insert.do";
 		}
@@ -251,7 +251,7 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		if(delete>0) {
-			return "redirect:/board/list.do";
+			return "redirect:/";
 		} else {
 			session.setAttribute("msg", msg);
 			return "redirect:"+url;

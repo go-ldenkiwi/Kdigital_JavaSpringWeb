@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <div class="list-group">
-	<th:block th:each="img:${imgList}">
-	<p>imgNo
-  		<span th:text="${img.boardImgNo}"></span>
-  	</p>
-  	<div class="mb-1">
-	    <img style="width: 200px; height: 200px;" th:if="${img.imgPath!=null}" class="col-2" alt="" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+	  <div class="carousel-inner">
+	   <th:block th:each="img:${board.boardImgList}" >
+	    <div class="carousel-item active" >
+	       <img style="width: 400px; height:400px;" th:if="${img.imgPath!=null}" th:src="@{/img/board/{file}(file=${img.imgPath})}">
+	    </div>
+	   </th:block>
+	  </div>
+	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Previous</span>
+	  </button>
+	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Next</span>
+	  </button>
 	</div>
 </div>
+	
