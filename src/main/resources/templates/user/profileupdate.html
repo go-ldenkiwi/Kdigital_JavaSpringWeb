@@ -21,7 +21,6 @@
 		            <label class="input-file-button" for="input-file">
 					  업로드
 					</label>
-					<th:block th:text="${user.imgPath}"></th:block>
 					<input class="input-file-button-input"  
 					name="img" type="file" id="input-file"  th:value="${user.imgPath}"  onchange="changeImg(this)" />
 					</div>
@@ -48,7 +47,7 @@
                 <div class="content-item">
                     <div class="item__title">소개</div>
                     <div class="item__input">
-                        <textarea name="content" id="" rows="3" th:text="${user.content}"></textarea>
+                        <textarea name="info" id="" rows="3" th:text="${user.info}"></textarea>
                     </div>
                 </div>
                 <div class="content-item">

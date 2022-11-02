@@ -5,12 +5,24 @@
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
 <style>
-div {
-border : 1px solid green;
+
+.insertCon{
+	border: 2px solid #ddd;
+	border-radius: 20px;
+	
+	margin-top: 30px;
+	padding: 20px;
+	
+	height : 700px;
 }
-#fileNm {
-border: 1px solid red;
+
+#imgContainer img{
+	width: 200px;
+	height: 200px;
+	
+	float: right;
 }
+
 
 .modalbutton button{
 width:250px;
@@ -19,34 +31,65 @@ width:250px;
 </head>
 <body>
 <header th:include="/nav/headerNav"></header>
-	<form enctype="multipart/form-data" action="/board/insert.do" method="POST">
-		<input type="hidden" th:value="${session.loginUser.userNo}" name="userNo">
-		<div class="mb-3">
-		  <textarea class="form-control" name="contents" rows="3"></textarea>
-		</div>
+	<main class="d-flex w-100 h-100">
+		<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
 		
-		<div>
-			<label for="selCategory">카테고리</label>
-			<select class="form-select" name="category" id="selCategory">
-				<option th:value="food">food</option>
-				<option th:value="sport">sport</option>
-				<option th:value="sights">sights</option>
-				<option th:value="etc" selected>etc</option>
-			</select>
+		<div class="container d-flex justify-content-center bg-light ">
+		 	<div class="insertCon">
+		 		<form  enctype="multipart/form-data" action="/board/insert.do" method="POST">
+		 		<h1>글 등록 폼</h1>			     
+			   <div class="mt-5">
+				<input type="hidden" value="1" name="userNo">
+			
+				<div class="d-flex">
+					<div class="boardInputLeft">
+						<div class="input-group mb-3">
+							 <label class="input-group-text" for="selCategory">Choose</label>
+							 <select class="form-select" id="selCategory" name="category">
+								   <option value="food">Food</option>
+								   <option value="sport">Sport</option>
+								   <option value="sights">Sights</option>
+								   <option value="etc" selected>etc</option>
+							 </select>
+						</div>
+						
+						<div class="d-flex">
+							<div class="input-group mb-3" id="uploadBox">
+						 		<input name="img" class="form-control"
+						 		type="file" id="inputImg" multiple onchange="setThumbnail(event)">
+							</div>
+						</div>
+						
+						<div class="input-group mb-3">
+							 <label class="input-group-text" for="map">지도</label>
+							 <input type="number" class="form-control" id="map" value=0>
+						</div>
+												
+						
+						<div class="form-floating">
+							<textarea style="resize: none; height: 300px;"
+								class="form-control" name="contents" id="boardContents" placeholder="내용"></textarea>
+							<label for="boardContents">내용</label>
+						</div>
+						
+					</div>
+					
+					<div class="boarderInputRights d-flex justify-content-center">
+						<div id="imgContainer"></div>
+					</div>
+				</div>
+			     </div>
+			     
+			     <div class="d-flex justify-content-center modalbutton mt-4">
+				<button class="btn btn-outline-primary me-4">글쓰기</button>
+				<button class="btn btn-outline-danger me-4" type="reset">초기화</button>
+			       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+			     </div>
+		     </form>
+		 	</div>
 		</div>
-		<div>
-			<label for="map">지도</label>
-			<input type="number" name="mapConfirm" id="map" value=0>
-		</div>
-		<div class="mb-3" id="uploadBox" style="border:1px solid black; width:800px; height:300px; padding:3px">
-		  <input name="img" class="form-control" type="file" id="inputImg" multiple
-		  onchange="setThumbnail(event)">
-		  <div id="imgContainer"></div>
-		  <span id="fileNm"></span>
-		</div>
-		<button class="btn btn-outline-primary">글쓰기</button>
-		<button class="btn btn-outline-danger" type="reset">초기화</button>
-	</form>
-
+	</main>
 </body>
 </html>
+
+	

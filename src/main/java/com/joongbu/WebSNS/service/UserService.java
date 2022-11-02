@@ -42,7 +42,7 @@ public class UserService {
         UserDto user = userMapper.findbyuserId(userId);
         System.out.println("user" + user);
         user.setPw(pw);
-        update = userMapper.update(user);
+        update = userMapper.update1(user);
         System.out.println(update);
     }
 

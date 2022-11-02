@@ -1,64 +1,141 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/board.js" defer="defer"></script>
 </head>
+
+<style>
+
+.imgList{
+	width: 525px;
+}
+
+.inReply{
+	border: 1px solid #ddd;
+	padding: 10px;
+	background-color: #ddd;
+	border-radius: 10px;	
+}
+
+.detailBoard{
+	width: 550px;
+}
+.detailReply{
+	width: 400px;
+}
+
+.replyCont textarea{
+	border:none;
+	resize: none;
+	height: 100px;
+}
+
+.profile-img-wrap{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.profile-img-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.inReplyForm::placeholder{
+	font-size:12px;
+	color:#eee;
+}
+
+</style>
 <body>
 	<header th:include="/nav/headerNav"></header>
-	<main class="container mt-5">
-		<div>
-			<p>
-				<span th:text="${board.boardNo+' / ' +board.user.nickname}"></span>
-			</p>
-			<p>
-				<span th:text="${board.contents}"></span>
-			</p>
-			<p>
-				<span th:text="${board.postTime}"></span>
-			</p>
-			<p>
-				<span th:text="${board.category}"></span>
-			</p>
-			
-			<section id="imgList">
-				<th:block th:include="/board/imgList" th:with="imgList=${board.boardImgList},boardNo=${board.boardNo}">			
-			</section>
-			
-		</div>
-		
-		<th:block th:if="${session.loginUser!=null}">
-			<div id="preferContainer">
-				<button class="rounded-pill btn btn-outline-danger" 
-				th:classappend="${prefer==0}?'':'active'"
-				onclick="boardPreferModify(event,1)"
-				th:value="${board.boardNo}">
-					<i class="bi bi-hand-thumbs-up"></i>
-					<th:block th:text="${board.likes}"></th:block>
-				</button>
-			</div>
-			<th:block th:if="${session.loginUser.userNo==board.userNo}">
-				<a class="btn btn-outline-primary" th:href="@{/board/update.do?(boardNo=${board.boardNo})}">수정</a>
-				<a class="btn btn-outline-danger" th:href="@{/board/delete.do?(boardNo=${board.boardNo})}">삭제</a>
-			</th:block>
-		</th:block>
-		
-		<th:block th:if="${session.loginUser!=null}">
-			<form name="replyInsertForm" action="/reply/insert.do" method="post">
-				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-				<input type="hidden" name="userNo" th:value="${session.loginUser.userNo}">
-				<p class="form-floating">
-					<textarea class="form-control" name="contents" id="replyContents"></textarea>
-				</p>
-				<div class="input-group">
-					<button class="btn btn-outline-primary">등록</button>
+		<main class="d-flex w-100 h-100">
+			<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
+			<div class="container justify-content-center bg-light ">
+			 	<div class="container d-flex justify-content-center mt-5">
+					<div class="me-3 detailBoard">
+						<div>
+							<div class="d-flex"
+							th:onclick="|location.href='@{user/profile.do(userId=${board.user.userId})}'|">
+								<div class="profile-img-wrap me-3" >
+				                    <img alt=" "  id="preview"
+				                    th:src="@{/img/user/{file}(file=${board.user.imgPath})}">
+					            </div>
+								<div class="nickName" th:text="${board.user.nickname}"></div>
+							</div>
+							<div id="imgList">
+								<th:block th:include="/board/imgList" th:with="imgList=${board.boardImgList},boardNo=${board.boardNo}">	</th:block>		
+							</div>
+				
+							<div class="d-flex justify-content-between my-4">
+								<h4>
+									@<span th:text="${board.category}"></span>
+								</h4>
+								
+								<div id="preferContainer">
+									<button class="rounded-pill btn btn-outline-success" 
+									th:classappend="${prefer==0}?'':'active'"
+									onclick="boardPreferModify(event,1)"
+									th:value="${board.boardNo}">
+										<i class="bi bi-hand-thumbs-up"></i>
+										<th:block th:text="${board.likes}"></th:block>
+									</button>
+								</div>
+							</div>
+							
+							<div>
+								<span th:text="${board.contents}"></span>
+							</div>
+						</div>
+						
+						<th:block th:if="${session.loginUser!=null}">
+							<div class="d-flex justify-content-end my-4">
+								<div>
+									<th:block th:if="${session.loginUser.userNo==board.userNo}">
+										<a class="rounded-pill btn btn-outline-primary" th:href="@{/board/update.do?(boardNo=${board.boardNo})}">수정</a>
+										<a class="rounded-pill btn btn-outline-danger" th:href="@{/board/delete.do?(boardNo=${board.boardNo})}">삭제</a>
+									</th:block>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					
+					
+					<div class="ms-3 detailReply">
+					<section id="replyList" class="mt-3 collapse show">
+						<th:block th:include="/reply/list" th:with="replyList=${board.boardReplyList}, boardNo=${board.boardNo}, user=${board.user}"></th:block>
+					</section>
+					<div class="mt-4">
+						<th:block th:if="${session.loginUser!=null}">
+							<form name="replyInsertForm" action="/reply/insert.do" method="post">
+								<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+								<input type="hidden" name="userNo" th:value="${session.loginUser.userNo}">
+									<div class="form-floating d-flex inReply">
+									<div class="replyCont w-100">
+										<textarea class="form-control inReplyForm" placeholder="댓글 작성" 
+										name="contents" id="replyContents"></textarea>
+									</div>
+									<div class="replyUpBtn flex-shrink-1">
+										<button class="btn">
+											<i class="bi bi-send-fill"></i>
+										</button>
+									</div>
+									</div>
+								</form>
+							</th:block>
+						</div>
+					</div>
 				</div>
-			</form>
-		</th:block>
-			<section id="replyList" class="mt-3 collapse show">
-				<th:block th:include="/reply/list" th:with="replyList=${board.boardReplyList}, boardNo=${board.boardNo}, user=${board.user}"></th:block>
-			</section>
-	</main>
+			</div>
+      
+		</main>
 </body>
 </html>
+
+	

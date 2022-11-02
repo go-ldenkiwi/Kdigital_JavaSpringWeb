@@ -18,7 +18,6 @@ function setThumbnail(event) {
     }
 }
 
-
 // boardReply
 const replyInsertForm=document.forms["replyInsertForm"];
 const replyList=document.getElementById("replyList");

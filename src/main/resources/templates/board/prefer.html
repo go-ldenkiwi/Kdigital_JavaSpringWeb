@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
 <div id="preferContainer">
-	<button class="rounded-pill btn btn-outline-danger" 
+	<button class="rounded-pill btn btn-outline-success" 
 	th:classappend="${prefer==0}?'':'active'"
 	onclick="boardPreferModify(event,1)"
 	th:value="${board.boardNo}">

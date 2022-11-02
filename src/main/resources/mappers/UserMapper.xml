@@ -32,7 +32,13 @@
 	
 	<update id="update"  parameterType="UserDto">
 			UPDATE USER SET
-			content=#{content}, email=#{email}, imgPath=#{imgPath}, nickname=#{nickname}
+			info=#{info}, email=#{email}, imgPath=#{imgPath}, nickname=#{nickname}
+			WHERE userId=#{userId}
+	</update>
+	
+	<update id="update1"  parameterType="UserDto">
+			UPDATE USER SET
+			pw=#{pw}
 			WHERE userId=#{userId}
 	</update>
 	

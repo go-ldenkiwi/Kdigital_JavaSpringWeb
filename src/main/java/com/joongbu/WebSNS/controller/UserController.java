@@ -207,9 +207,10 @@ public class UserController {
 						userService.mailSend(dto);
 					}
 			}
+			msg="임시비밀번호가 발송되었습니다.";
 		}
 		session.setAttribute("msg", msg);
-		return "redirect:/user/login";
+		return "redirect:/user/login.do";
 	}
 	
 	

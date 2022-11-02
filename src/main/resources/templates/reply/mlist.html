@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
+<style>
+.rreply{
+	border-radius: 25px;
+	
+	background-color: #eee;
+	
+	padding: 10px;
+	padding-left : 20px;
+}
+</style>
+
+<div class="list-group">
+	<th:block th:each="reply:${replyList}">
+	  	<div th:id="'replyLi'+${reply.replyNo}" class="list-group-item list-group-item-action py-3" aria-current="true">
+	  	
+	  		<div class="d-flex justify-content-between">
+			    <div>
+			    	<h5>
+			    		<th:block th:text="${reply.user.nickname}"></th:block>
+			    	</h5>
+				</div>
+			    <div>
+			      <small th:text="${#dates.format(reply.postTime,'yy.MM.dd/HH:mm')}"></small>
+			    </div>
+	  		</div>
+		    <div class="mb-1 rreply">
+		    	<span class="col-10" th:text="${reply.contents}"></span>
+		    </div>
+		    <th:block th:include="/reply/mrrlist" th:with="mrrList=${reply.replyList}"></th:block>
+	 	</div>
+	 </th:block>
+</div>
+</html>

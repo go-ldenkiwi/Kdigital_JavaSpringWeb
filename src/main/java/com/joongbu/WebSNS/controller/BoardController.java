@@ -108,6 +108,7 @@ public class BoardController {
 			) {
 		int insert=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
+		
 		Pattern tags = Pattern.compile("#(\\S+)");
         Matcher mat = tags.matcher(board.getContents());
         List<String> tagList = new ArrayList<>();
@@ -134,7 +135,7 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		if(insert>0) {
-			return "redirect:/board/list.do";
+			return "redirect:/";
 		}else {			
 			return "redirect:/board/insert.do";
 		}
@@ -181,6 +182,14 @@ public class BoardController {
 			) {
 		int update=0;
 		ArrayList<String> imgPaths=new ArrayList<String>();
+
+		Pattern tags = Pattern.compile("#(\\S+)");
+        Matcher mat = tags.matcher(board.getContents());
+        List<String> tagList = new ArrayList<>();
+        
+        while(mat.find()) {
+            tagList.add((mat.group(1)));
+        }
 		try {
 			for(MultipartFile img:imgList) {
 				if(!img.isEmpty()) {
@@ -194,6 +203,7 @@ public class BoardController {
 				}
 			}
 			update=boardService.updateBoardAndBoardImgs(board, imgPaths);
+			boardService.saveTag(tagList, board.getBoardNo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -251,7 +261,7 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		if(delete>0) {
-			return "redirect:/board/list.do";
+			return "redirect:/";
 		} else {
 			session.setAttribute("msg", msg);
 			return "redirect:"+url;

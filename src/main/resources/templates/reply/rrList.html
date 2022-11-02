@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<style>
+.rreplys{
+	border-radius: 25px;
+	
+	background-color: #eee;
+	
+	padding: 10px;
+	padding-left : 20px;
+}
+</style>
 <div class="list-group ms-2">
 	<th:block th:each="reply:${rrList}">
 	  	<div th:id="'replyLi'+${reply.replyNo}" class="list-group-item list-group-item-action py-3" aria-current="true">
-		    <div class="d-flex w-100 justify-content-between">
-		      <small th:text="${#dates.format(reply.postTime,'HH:mm:ss yyyy-MM-dd')}"></small>
-		    </div>
-		    <div class="mb-1 d-flex justify-content-between align-items-center">
+	  		<div class="d-flex justify-content-between">
 			    <div>
-			    	<th:block th:text="${reply.user.nickname}"></th:block>
+			    	<h5>
+			    		<th:block th:text="${reply.user.nickname}"></th:block>
+			    	</h5>
 				</div>
+			    <div>
+			      <small th:text="${#dates.format(reply.postTime,'yy.MM.dd/HH:mm')}"></small>
+			    </div>
+	  		</div>
+		    <div class="mb-1 rreplys">
+		    	<span class="col-10" th:text="${reply.contents}"></span>
+		    </div>
+		    <div class="mb-1 d-flex justify-content-end align-items-center">
 				<th:block th:if="${session.loginUser}">
 					<th:block th:if="${session.loginUser.userNo==reply.userNo}">
 						<button th:onclick="readReplyUpdateForm([[${reply.replyNo}]])"
-						class="btn btn-outline-secondary btn-sm" type="button">수정</button>
+						class="rounded-pill btn btn-outline-secondary btn-sm" type="button">수정</button>
 					</th:block>
 				</th:block>
-		    </div>
-		    <div class="mb-1 row" >
-		    	<span  class="col-10"  th:text="${reply.contents}"></span>
 		    </div>
 		    <th:block th:include="/reply/rrlist" th:with="rrList=${reply.replyList}"></th:block>
 		    <div th:if="${session.loginUser!=null}" class="my-2">

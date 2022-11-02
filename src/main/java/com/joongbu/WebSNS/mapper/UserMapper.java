@@ -13,4 +13,5 @@ public interface UserMapper {
 	UserDto findbynicknameNotuserId(String nickname,String userId);
 	UserDto findbyusername(String username);
 	int update(UserDto user);
+	int update1(UserDto user);
 }
