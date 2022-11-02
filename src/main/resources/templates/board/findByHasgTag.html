@@ -6,6 +6,7 @@
 			<div class="board d-flex justify-content-center "
 			th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
 				<div>
+<<<<<<< HEAD
 					<div class="d-flex"
 					th:onclick="|location.href='@{user/profile.do(userId=${board.user.userId})}'|">
 						<div class="profile-img-wrap me-3" >
@@ -14,6 +15,9 @@
 			            </div>
 						<div class="nickName" th:text="${board.user.nickname}"></div>
 					</div>
+=======
+					<div class="nickName" th:text="${board.user.nickname}"></div>
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 					<div class="d-flex">
 						<div class="mainBoard me-2">
 							<div class="mainBoardImg">

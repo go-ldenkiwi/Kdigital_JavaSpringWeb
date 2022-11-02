@@ -32,6 +32,7 @@
 	height: 100px;
 }
 
+<<<<<<< HEAD
 .profile-img-wrap{
   width: 40px;
   height: 40px;
@@ -47,6 +48,8 @@
   border-radius: 50%;
 }
 
+=======
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 .inReplyForm::placeholder{
 	font-size:12px;
 	color:#eee;
@@ -57,10 +60,15 @@
 	<header th:include="/nav/headerNav"></header>
 		<main class="d-flex w-100 h-100">
 			<div class="sideNav" style="width:170px" th:include="/nav/asideNav"></div>
+<<<<<<< HEAD
+=======
+			
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 			<div class="container justify-content-center bg-light ">
 			 	<div class="container d-flex justify-content-center mt-5">
 					<div class="me-3 detailBoard">
 						<div>
+<<<<<<< HEAD
 							<div class="d-flex"
 							th:onclick="|location.href='@{user/profile.do(userId=${board.user.userId})}'|">
 								<div class="profile-img-wrap me-3" >
@@ -69,6 +77,11 @@
 					            </div>
 								<div class="nickName" th:text="${board.user.nickname}"></div>
 							</div>
+=======
+							<h2>
+								<span th:text="${board.user.nickname}"></span>
+							</h2>
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 							<div id="imgList">
 								<th:block th:include="/board/imgList" th:with="imgList=${board.boardImgList},boardNo=${board.boardNo}">	</th:block>		
 							</div>

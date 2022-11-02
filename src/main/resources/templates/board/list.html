@@ -21,6 +21,7 @@
 	padding: 20px;
 }
 
+<<<<<<< HEAD
 .profile-img-wrap{
   width: 40px;
   height: 40px;
@@ -35,6 +36,8 @@
   height: 100%;
   border-radius: 50%;
 }
+=======
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 
 .mainBoardImg{
 	height:250px;
@@ -132,6 +135,7 @@ width:250px;
 	<main class="container d-flex justify-content-center" id="mainBoardContainer">
 		<div>
 			<th:block th:each="board:${boardList}">
+<<<<<<< HEAD
 			<div class="board d-flex justify-content-center ">
 				<div>
 					<div class="d-flex"
@@ -144,6 +148,13 @@ width:250px;
 					</div>
 					<div class="d-flex"
 					th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
+=======
+			<div class="board d-flex justify-content-center "
+			th:onclick="location.href='detail.do?boardNo=[[${board.boardNo}]]'">
+				<div>
+					<div class="nickName" th:text="${board.user.nickname}"></div>
+					<div class="d-flex">
+>>>>>>> af587fa2280b4ec0f0ee3851d4407bc5272d3239
 						<div class="mainBoard me-2">
 							<div class="mainBoardImg">
 									<!-- <img class="col" style="width: 400px;" th:src="@{/img/board/{file}(file=${img.imgPath})}"> -->
